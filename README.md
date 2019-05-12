@@ -16,9 +16,9 @@
          + Firebase-functions 2.3.0
 
      - Thư mục con
-         + ./index.js                 : Chứa các control function để export lên firebase function (hosting)
-         + ./Localndex.ks             : Chứa các control function để test dưới máy local
-         + ./ShareFunction/Share.js   : Chứa các hàm sử dụng cho cho cả 2 mục trên (local and hosting) 
+         + .Functions/index.js                 : Chứa các control function để export lên firebase function (hosting)
+         + .Functions/Localndex.ks             : Chứa các control function để test dưới máy local
+         + .Functions/ShareFunction/Share.js   : Chứa các hàm sử dụng cho cho cả 2 mục trên (local and hosting) 
 
 # Hosting
     + Frontend:  https://xeomonline-a57d4.web.app/
