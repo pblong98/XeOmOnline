@@ -1,19 +1,23 @@
 <agm-map [zoom] = "zoom" [latitude] = "latitude" [longitude]="longitude" (mapClick)="onMapClicked($event)">
+    
+    <agm-marker *ngIf = "isShowTargetPlaceBtn"
+    [latitude]="toLatitude" 
+    [longitude]="toLongitude"
+    [iconUrl]="icon2"
+    ></agm-marker>
+
     <agm-marker 
         [latitude]="latitude" 
         [longitude]="longitude"
         [iconUrl]="icon"
     ></agm-marker>
 
-    <agm-marker 
-        [latitude]="10.766394387516629" 
-        [longitude]="106.67727190447408"
-        [iconUrl]="icon2"
-    ></agm-marker>
+    <agm-direction [origin]="origin" [destination]="destination">
+    </agm-direction>
 
-    <agm-marker 
-        [latitude]="10.76196756499401" 
-        [longitude]="106.67907434893209"
-        [iconUrl]="icon2"
-    ></agm-marker>
 </agm-map>
+<!-- 
+<agm-map [latitude]="lat" [longitude]="lng">
+    <agm-direction [origin]="origin" [destination]="destination">
+    </agm-direction>
+</agm-map> -->
