@@ -4,7 +4,7 @@
 # Cấu trúc sourse
   1: FontendApplication:
   
-     - Công nghệ: Angular 4
+     - Công nghệ: Angular 7
      
   2: BackendApplycation: 
 
