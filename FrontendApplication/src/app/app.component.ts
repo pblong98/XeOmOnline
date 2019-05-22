@@ -1,145 +1,7 @@
-// /// <reference types="@types/googlemaps" />
-// import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
-// import { MapsAPILoader } from '@agm/core';
-// import { FormControl } from "@angular/forms";
-// declare let google: any;
-
-// @Component({
-//   selector: 'app-root',
-//   templateUrl: './app.component.html',
-//   styleUrls: ['./app.component.css']
-// })
-
-// export class AppComponent implements OnInit {
-
-//   //Toa do GPS
-//   latitude = 0;
-//   longitude = 0;
-
-//   //Toa do nguoi dung muon di toi
-//   toLatitude = 10.76196756499401;
-//   toLongitude = 106.67907434893209;
-
-//   //
-//   isShowTargetPlaceBtn = false;
-
-//   title = 'FrontendApplication';
-
-//   zoom = 17;
-
-//   icon = {
-//     url: "./assets/userMarker.png",
-//     scaledSize: {
-//       width: 25,
-//       height: 35
-//     }
-//   }
-
-//   icon2 = {
-//     url: "./assets/driverIcon.png",
-//     scaledSize: {
-//       width: 35,
-//       height: 35
-//     }
-//   }
-
-//   @ViewChild("search")
-//   public searchElementRef: ElementRef;
-//   public searchControl: FormControl;
-
-//   constructor(
-//     public mapsAPILoader: MapsAPILoader,
-//     public ngZone: NgZone
-//   ) {}
-
-//   ngOnInit() {
-//     //create search FormControl
-//     this.searchControl = new FormControl();
-
-//     //load Places Autocomplete
-//     this.mapsAPILoader.load().then(() => {
-//       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-//         types: ["address"]
-//       });
-//       autocomplete.addListener("place_changed", () => {
-//         this.ngZone.run(() => {
-//           //get the place result
-//           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-//           //verify result
-//           if (place.geometry === undefined || place.geometry === null) {
-//             return;
-//           }
-
-//           //set latitude, longitude and zoom
-//           this.latitude = place.geometry.location.lat();
-//           this.longitude = place.geometry.location.lng();
-//           this.zoom = 12;
-//         });
-//       });
-//     });
-
-//     if (window.navigator.geolocation) {
-//       window.navigator.geolocation.getCurrentPosition(this.getLocation.bind(this));
-//     };
-//   }
-
-
-//   getLocation() {
-//     if (navigator.geolocation) {
-//       navigator.geolocation.getCurrentPosition(this.showPosition.bind(this));
-//     } else {
-//       alert("Thiết bị của bạn không hỗ trợ hoặc không bật GPS !");
-//     }
-//   }
-
-//   showPosition(position) {
-//     this.isShowTargetPlaceBtn = true;
-//     this.latitude = position.coords.latitude;
-//     this.longitude = position.coords.longitude;
-//   }
-
-//   public origin = { lat: this.latitude, lng: this.longitude };
-//   public destination = { lat: this.toLatitude, lng: this.toLongitude };
-
-//   GetDirection() {
-//     this.origin = { lat: this.latitude, lng: this.longitude };
-//     this.destination = { lat: this.toLatitude, lng: this.toLongitude };
-
-//   }
-
-
-//   OnMapClicked(event) {
-//     this.toLatitude = event.coords.lat;
-//     this.toLongitude = event.coords.lng;
-//     this.GetDirection();
-//   }
-// }
-
-
-// // public lat: Number = 24.799448;
-// // public lng: Number = 120.979021;
-
-// // public origin: any;
-// // public destination: any;
-
-// // ngOnInit() {
-// //   this.GetDirection();
-// // }
-
-// // GetDirection() {
-// //   this.origin = { lat: 24.799448, lng: 120.979021 };
-// //   this.destination = { lat: 24.799524, lng: 120.975017 };
-
-// //   // this.origin = 'Taipei Main Station';
-// //   // this.destination = 'Taiwan Presidential Office';
-// // }
-// // }
-
-
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { MapsAPILoader } from '@agm/core';
+import { $ } from 'protractor';
 
 declare var google;
 
@@ -166,8 +28,12 @@ export class AppComponent {
   public to_longitude: number;
   public IsShowDestLocation: boolean;
 
+  public QuickSelectedFrom = -1;
+  public QuickSelectedTo = -1;
+
   public origin = { lat: this.from_latitude, lng: this.from_longitude };
   public destination = { lat: this.to_latitude, lng: this.to_longitude };
+  public center = {lat: this.latitude, lng: this.longitude };
   protected map: any;
 
   icon = {
@@ -182,6 +48,22 @@ export class AppComponent {
     url: "./assets/driverIcon.png",
     scaledSize: {
       width: 35,
+      height: 35
+    }
+  }
+
+  icon3 = {
+    url: "./assets/start.png",
+    scaledSize: {
+      width: 25,
+      height: 35
+    }
+  }
+
+  icon4 = {
+    url: "./assets/des.png",
+    scaledSize: {
+      width: 25,
       height: 35
     }
   }
@@ -258,7 +140,7 @@ export class AppComponent {
   public SetStartLocation(lat, lng) {
     this.from_latitude = lat;
     this.from_longitude = lng;
-    this.MoveViewToPoint(lat, lng);
+    this.MoveViewToPoint(lat, lng, 0);
     this.zoom = 15;
     this.IsShowStartLocation = true;
     this.GetDirection();
@@ -267,7 +149,7 @@ export class AppComponent {
   public SetDestLocation(lat, lng) {
     this.to_latitude = lat;
     this.to_longitude = lng;
-    this.MoveViewToPoint(lat, lng);
+    this.MoveViewToPoint(lat, lng, 0);
     this.zoom = 15;
     this.IsShowDestLocation = true;
     this.GetDirection();
@@ -275,6 +157,8 @@ export class AppComponent {
 
   public QuickSelectLocaltion(event, options) {
     var latlng = event.target.value;
+    if(latlng == '-1')
+        return;
     var lat = latlng.substring(0,latlng.lastIndexOf(','));
     var lng = latlng.substring(latlng.lastIndexOf(',')+1);
     //console.log(latlng + "   " + lat + "   " + lng);
@@ -302,10 +186,22 @@ export class AppComponent {
   }
 
   //Chi chuyển view của bản đồ tới một điểm khác
-  public MoveViewToPoint(lat, lng)
+  //mode = 1: chiếu tới điểm giữa của điểm tới và điểm bắt đầu (để nhìn thấy đc một lúc 2 điểm)
+  //mode = 0: chiếu trực tiếp tới lat vs lng
+  //mode = -1: chiếu về điểm đang đứng
+  public MoveViewToPoint(lat, lng, mode)
   {
+   // alert(lat +"  " + lng + "  " + mode)
+    this.latitude += 0.0001;
+    this.longitude += 0.0001;
     setTimeout(()=>{
-      if(this.IsShowDestLocation && this.IsShowStartLocation)
+      if(mode == -1)
+      {
+        
+        this.latitude = this.current_latitude;
+        this.longitude = this.current_longitude;
+      }
+      else if(this.IsShowDestLocation && this.IsShowStartLocation)
       {
         this.latitude = (Number(this.from_latitude) + Number(this.to_latitude)) / 2;
         this.longitude = (Number(this.from_longitude) + Number(this.to_longitude)) / 2;
@@ -314,8 +210,9 @@ export class AppComponent {
           this.zoom = 11;
         //console.log(16 - Number(this.DistanceCalculate(this.from_latitude, this.from_longitude, this.to_latitude, this.to_longitude)) * 100);
       }
-      else
+      else if(mode == 0)
       {
+        //alert(lat +"  " + lng + "  " + mode)
         this.latitude = Number(lat);
         this.longitude = Number(lng);
       }
@@ -324,6 +221,7 @@ export class AppComponent {
 
   public DistanceCalculate(absfrom_latitude, absfrom_longtitude, absto_latitude, absto_longtitude):Number
   {
+    //alert('a');
     return Math.sqrt(Math.pow(absfrom_latitude - absto_latitude,2) + Math.pow(absfrom_longtitude - absto_longtitude,2));
   }
 
@@ -331,12 +229,26 @@ export class AppComponent {
     this.map = map;
   }
 
+  
   public OnMapClicked(event) {
-    this.latitude = event.coords.lat;
-    this.longitude = event.coords.lng;
-    console.log(this.latitude);
-    console.log(this.longitude);
-    this.GetDirection();
+    this.QuickSelectedFrom = -1;
+    this.QuickSelectedTo = -1;
+    if(!this.IsShowStartLocation && !this.IsShowDestLocation)
+    {
+      this.SetStartLocation(event.coords.lat, event.coords.lng);
+      return;
+    }
+    if(this.IsShowStartLocation && !this.IsShowDestLocation)
+    {
+      this.SetDestLocation(event.coords.lat, event.coords.lng);
+      return;
+    }
+    if(this.IsShowStartLocation && this.IsShowDestLocation)
+    {
+      this.IsShowDestLocation = false;
+      this.IsShowStartLocation = false;
+      return;
+    }
   }
 
   //Tìm quãng đường ngắn nhất giữa hai điểm đã được chọn
