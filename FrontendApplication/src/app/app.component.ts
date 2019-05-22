@@ -168,6 +168,7 @@ export class AppComponent {
 
   public origin = { lat: this.from_latitude, lng: this.from_longitude };
   public destination = { lat: this.to_latitude, lng: this.to_longitude };
+  protected map: any;
 
   icon = {
     url: "./assets/userMarker.png",
@@ -257,8 +258,7 @@ export class AppComponent {
   public SetStartLocation(lat, lng) {
     this.from_latitude = lat;
     this.from_longitude = lng;
-    this.latitude = lat;
-    this.longitude = lng;
+    this.MoveViewToPoint(lat, lng);
     this.zoom = 15;
     this.IsShowStartLocation = true;
     this.GetDirection();
@@ -267,8 +267,7 @@ export class AppComponent {
   public SetDestLocation(lat, lng) {
     this.to_latitude = lat;
     this.to_longitude = lng;
-    this.latitude = lat;
-    this.longitude = lng;
+    this.MoveViewToPoint(lat, lng);
     this.zoom = 15;
     this.IsShowDestLocation = true;
     this.GetDirection();
@@ -303,9 +302,33 @@ export class AppComponent {
   }
 
   //Chi chuyển view của bản đồ tới một điểm khác
-  public MoveViewToPoint()
+  public MoveViewToPoint(lat, lng)
   {
+    setTimeout(()=>{
+      if(this.IsShowDestLocation && this.IsShowStartLocation)
+      {
+        this.latitude = (Number(this.from_latitude) + Number(this.to_latitude)) / 2;
+        this.longitude = (Number(this.from_longitude) + Number(this.to_longitude)) / 2;
+        this.zoom = 16 - Number(this.DistanceCalculate(this.from_latitude, this.from_longitude, this.to_latitude, this.to_longitude)) * 100;
+        if(this.zoom < 11)
+          this.zoom = 11;
+        //console.log(16 - Number(this.DistanceCalculate(this.from_latitude, this.from_longitude, this.to_latitude, this.to_longitude)) * 100);
+      }
+      else
+      {
+        this.latitude = Number(lat);
+        this.longitude = Number(lng);
+      }
+    });
+  }
 
+  public DistanceCalculate(absfrom_latitude, absfrom_longtitude, absto_latitude, absto_longtitude):Number
+  {
+    return Math.sqrt(Math.pow(absfrom_latitude - absto_latitude,2) + Math.pow(absfrom_longtitude - absto_longtitude,2));
+  }
+
+  protected mapReady(map) {
+    this.map = map;
   }
 
   public OnMapClicked(event) {

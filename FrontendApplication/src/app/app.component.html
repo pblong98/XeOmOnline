@@ -38,7 +38,7 @@
 <!-- End:: Tìm kiếm địa điểm -->
 
 <!-- Bản đồ -->
-  <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom" (mapClick)="OnMapClicked($event)">
+  <agm-map (mapReady)="mapReady($event)" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom" (mapClick)="OnMapClicked($event)">
     
     <!-- Hiện vị trí đang đứng hiện tại -->
     <agm-marker [latitude]="current_latitude" [longitude]="current_longitude" [iconUrl]="icon"></agm-marker>
@@ -68,7 +68,7 @@
     <select style="width: 44%" class="btn btn-success" (change)="QuickSelectLocaltion($event,'from')">
         <option class="QuickSelectLocationCbbItems" value="">Chọn nhanh điểm bắt đầu</option>
         <option class="QuickSelectLocationCbbItems" value="10.762910394759604,106.6823867676726">Trường ĐH KHTN cơ sở NVC</option>
-        <option class="QuickSelectLocationCbbItems" value="10.8750463,106.7985160">Trường ĐH KHTN cơ sở Linh Trung</option>
+        <option class="QuickSelectLocationCbbItems" value="10.875801219367842,106.79910957813263">Trường ĐH KHTN cơ sở Linh Trung</option>
         <option class="QuickSelectLocationCbbItems" value="10.75078009281964,106.68366109351416">Cầu Chữ Y</option>
         <option class="QuickSelectLocationCbbItems" value="10.777123484220342,106.69569525573843">Dinh độc lập</option>
         <option class="QuickSelectLocationCbbItems" value="10.7877325,106.7044817">Thảo cầm viên</option>
