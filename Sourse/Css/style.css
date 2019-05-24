@@ -7,21 +7,27 @@ background :white;
 h1{
     font-family: arial;
     font-size: 30;
-    background-color: blue;
+    
     color: white;
     text-align: center;
 
 }
+span{
+    background-color: blue;
+    
+}
 .map{
     
     position: absolute;
-    top: 50%;
+    top: 39%;
     left:50%;
     transform:translate(-50%,-50%);
-    border-style:solid ;
+    border-style:inset ;
     border:1;
     border-color: green;
     border-width: 3px;
+    width: 650px;
+    height: 470px;
 }
 .btn{
     position: absolute;
@@ -39,8 +45,16 @@ h1{
 }
 form{
     position: absolute;
-    bottom: 15%;
+    bottom: 7%;
     left:50%;
     transform:translate(-50%,-50%);
-
+    border-width: 3px;
+    border-style: solid;
+    border-color:skyblue;
+    width: 550px;
+    height: 100px; 
+}
+.datxe{
+    position: absolute;
+    transform:translate(-50%,-50%);
 }

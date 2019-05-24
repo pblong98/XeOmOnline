@@ -1,0 +1,24 @@
+
+form.dangkybiker{
+    position: absolute;
+    top: 27%;
+    left: 50%;
+    border-width: 3px;
+    border-style: solid;
+    border-color:skyblue;
+    width: 550px;
+    height: 250px;
+    border-radius: 3px;
+}
+table{
+    
+    display: flex;
+    justify-content: space-between;
+    margin-left: 3rem;
+    flex-flow: row wrap;
+    table-layout: fixed;
+}
+.bodyform{
+font: outline;
+font-size: 204;
+}
