@@ -1,60 +1,62 @@
 body{
-margin: 0;
-padding: 0;
-font-family: sans-serif;
-background :white;
-}
-h1{
-    font-family: arial;
-    font-size: 30;
+    font-family:Arial,sans-serif;
+  }
+  #cha{
+    height:850px;
+    width:750px;
+    padding:20px 5px;
+    margin: 0 auto;
+    background: white;
+    border-radius:25px;
+    position: relative;
+    background:blue;
+  }
+  .main{
     
-    color: white;
-    text-align: center;
-
-}
-span{
-    background-color: blue;
+    height:750px;
+    width:700px;
+    padding:20px;
+    margin: 0 auto;
+    background: white;
+    border: 5px solid blue;
+   
     
-}
-.map{
-    
-    position: absolute;
-    top: 39%;
+  }
+  #h1{
+  text-align: center;
+    margin:0;
+    color:white;
+  }
+  iframe{
+   border-radius:25px;
+    margin: 0 auto;
+    height:500px;
+    width:650px;
+    padding:20px;
+    border: 5px solid green;
+  }
+  .con{
+    border-radius:25px;
+    background:white;
+   
+  }
+  button{
     left:50%;
+    bottom:5%;
+    position:absolute;
     transform:translate(-50%,-50%);
-    border-style:inset ;
-    border:1;
-    border-color: green;
-    border-width: 3px;
-    width: 650px;
-    height: 470px;
-}
-.btn{
-    position: absolute;
-    color: white;
-    font-size: 50;
-    bottom: 5%;
-    left: 50%;
-    transform:translate(-50%,-50%);
-    font-family: Arial;
-    background: darkgreen;
-    font-style: inherit;
-    width: 80px;
-    height: 40px;
-    text-align: center;
-}
-form{
-    position: absolute;
-    bottom: 7%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    border-width: 3px;
-    border-style: solid;
-    border-color:skyblue;
-    width: 550px;
-    height: 100px; 
-}
-.datxe{
-    position: absolute;
-    transform:translate(-50%,-50%);
-}
+    font-size:26px;
+    color:white;
+    background:#0000FF;
+  }
+  .datxe{
+    border-radius:25px;
+    padding:5px;
+    border: 5px solid #66ccff;
+    height:8rem;
+    font-size:20px;
+  }
+  input{
+    font-size:20px;
+  }
+  
