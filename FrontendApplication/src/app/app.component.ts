@@ -11,6 +11,8 @@ declare var google;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  static ThisApp:AppComponent;
+
   public latitude: number;
   public longitude: number;
   public searchFromControl: FormControl;
@@ -35,6 +37,10 @@ export class AppComponent {
   public destination = { lat: this.to_latitude, lng: this.to_longitude };
   public center = {lat: this.latitude, lng: this.longitude };
   protected map: any;
+
+  public IsShowSignUpComponent;
+  public IsShowSignInComponent;
+  public IsShowMapComponent;
 
   icon = {
     url: "./assets/userMarker.png",
@@ -133,8 +139,8 @@ export class AppComponent {
         });
       });
     });
-
-    
+    this.ComponentShowControl("in");
+    AppComponent.ThisApp = this;
   }
 
   public SetStartLocation(lat, lng) {
@@ -259,5 +265,25 @@ export class AppComponent {
     }
   }
 
+  public ComponentShowControl(comp)
+  {
+    switch(comp)
+    {
+      case "in":
+        this.IsShowSignInComponent = true;
+        this.IsShowSignUpComponent = false;
+        this.IsShowMapComponent = false;
+        break;
+      case "up":
+        this.IsShowSignInComponent = false;
+        this.IsShowSignUpComponent = true;
+        this.IsShowMapComponent = false;
+        break;
+      case "map":
+        this.IsShowSignInComponent = false;
+        this.IsShowSignUpComponent = false;
+        this.IsShowMapComponent = true;
+        break;
+    }
+  }
 }
-

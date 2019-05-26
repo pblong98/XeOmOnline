@@ -1,0 +1,51 @@
+<div class="shadow-lg p-3 mb-5 bg-white rounded" id="RegisterTable">
+    <h2>Đăng ký tài xế:</h2>
+    <p style="margin-left: 10px;" class="{{messstyle}}">{{mess}}</p>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text inputlabel" id="basic-addon3">Tên đăng nhập</span>
+        </div>
+        <input [(ngModel)]="username" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text inputlabel" id="basic-addon3">Mật khẩu</span>
+        </div>
+        <input [(ngModel)]="password" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div>
+        
+    <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text inputlabel" id="basic-addon3">Nhập lại mật khẩu</span>
+            </div>
+            <input [(ngModel)]="password2" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div>
+
+    <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text inputlabel" id="basic-addon3">Họ và tên</span>
+            </div>
+            <input [(ngModel)]="name" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+        
+    <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text inputlabel" id="basic-addon3">Số điện thoại</span>
+            </div>
+            <input [(ngModel)]="phone" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div>
+
+        
+    <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text inputlabel" id="basic-addon3">Biển số xe</span>
+            </div>
+            <input [(ngModel)]="licenseplates" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div>
+
+    <div style="margin-top: 30px;">
+        <button (click)="SignupBtnClicked();" type="button" class="shadow btn btn-lg btn-success">Đăng ký</button>
+        <button (click)="BackBtnClicked();" style="margin-left: 10px" type="button" class="shadow btn btn-lg btn-danger">Quay lại</button>
+    </div>
+</div>

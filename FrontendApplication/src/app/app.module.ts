@@ -1,30 +1,4 @@
-// import { BrowserModule } from '@angular/platform-browser';
-// import { NgModule } from '@angular/core';
 
-// import { AppRoutingModule } from './app-routing.module';
-// import { AppComponent } from './app.component';
-// import { AgmCoreModule } from '@agm/core';
-// import { AgmDirectionModule } from 'agm-direction';
-// import { SignUpSignInComponent } from './sign-up-sign-in/sign-up-sign-in.component';
-
-// @NgModule({
-//   declarations: [
-//     AppComponent,
-//     SignUpSignInComponent
-//   ],
-//   imports: [
-//     BrowserModule,
-//     AppRoutingModule,
-//     AgmCoreModule.forRoot({
-//       apiKey: "AIzaSyDyXwCLnVOMKu-VFr8vwHAfruzhahv7Gxw",
-//       libraries: ["places"]
-//     }),
-//     AgmDirectionModule      
-//   ],
-//   providers: [],
-//   bootstrap: [AppComponent]
-// })
-// export class AppModule { }
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +7,13 @@ import { AgmCoreModule } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
 
 import { AppComponent } from './app.component';
+import { DriverRegisterComponent } from './driver-register/driver-register.component';
+import { BorderComponent } from './border/border.component';
+import { DriverLoginComponent } from './driver-login/driver-login.component';
+
+import { HttpClientModule } from '@angular/common/http'
+import { APIService } from './API.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports:      [ 
@@ -43,9 +24,11 @@ import { AppComponent } from './app.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AgmDirectionModule
+    AgmDirectionModule,
+    HttpClientModule
    ],
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent  ],
+  providers:    [APIService, CookieService ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

@@ -1,16 +1,34 @@
 const functions = require('firebase-functions');
-const express = require('express')
-const app = express()
-const share = require("./ShareFunctions/Share")
+const express = require('express');
+const app = express();
+const share = require("./ShareFunctions/Share");
+var cors = require('cors');
+var allowedOrigins = ['http://localhost:4200',
+                      'https://xeomonline-a57d4.firebaseapp.com',
+                      'https://xeomonline-a57d4.web.app/'];
+app.use(cors({
+  origin: function(origin, callback){
+    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
 
-app.get('/signup/username/:uname/password/:pword', (req, res) => {
+app.get('/signup/username/:uname/password/:pword/name/:name/phone/:phone/lisense/:lisense', (req, res) => {
     var data = "fail";
-    share.SignUp(req.params.uname, req.params.pword).then((result) => {
+    share.SignUp(req.params.uname, req.params.pword, req.params.name, req.params.phone, req.params.lisense).then((result) => {
         data = result;
         res.send(data);
+        console.log("New user: " + data);
         return;
     }).catch((e)=>{
-        data = false;
+        data = "fail";
         res.send(data);
         return;
     });
@@ -46,20 +64,6 @@ app.get('/DriverReady/token/:token/lat/:lat/lng/:lng', (req, res) => {
     });
 });
 
-app.get('/DriverReady/OnMissionNotify/token/:token/IsOnMission/:IsOnMission', (req, res) => {
-    var token = req.params.token;
-    var IsOnMission = req.params.IsOnMission;
-    var response = false;
-    share.DriverOnMissionNotify(token,IsOnMission).then((result)=>{
-        response = result;
-        res.send(response);
-        return;
-    }).catch((e)=>{
-        response = false;
-        res.send(response);
-        return;
-    });
-});
 
 
 

@@ -4,6 +4,8 @@ agm-map {
 
 .container {
   width: 700px;
+  position: relative;
+  top: -750px;
 }
 
 .QuickSelectLocationCbbItems{

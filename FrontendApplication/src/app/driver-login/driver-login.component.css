@@ -1,0 +1,20 @@
+#LoginTable {
+    margin: 0 auto;
+    height:400px;
+    width:600px;
+    position: relative;
+    top: -640px;
+    border-radius: 25px 25px 25px 25px;
+    padding: 30px;
+}
+
+#LoginTable h2{
+    color: rgb(53, 53, 53);
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.inputlabel{
+    width: 150px;
+    align-content: right;
+}

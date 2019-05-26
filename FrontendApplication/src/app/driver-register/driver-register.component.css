@@ -1,0 +1,19 @@
+#RegisterTable {
+    margin: 0 auto;
+    height:520px;
+    width:600px;
+    position: relative;
+    top: -700px;
+    border-radius: 25px 25px 25px 25px;
+    padding: 30px;
+}
+
+#RegisterTable h2{
+    color: rgb(53, 53, 53);
+    margin-bottom: 30px;
+}
+
+.inputlabel{
+    width: 150px;
+    align-content: right;
+}

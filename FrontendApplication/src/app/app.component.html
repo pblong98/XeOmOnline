@@ -1,34 +1,8 @@
-<!-- <agm-map [zoom] = "zoom" [latitude] = "latitude" [longitude]="longitude" (mapClick)="onMapClicked($event)">
-    
-    <agm-marker *ngIf = "isShowTargetPlaceBtn"
-    [latitude]="toLatitude" 
-    [longitude]="toLongitude"
-    [iconUrl]="icon2"
-    ></agm-marker>
-
-    <agm-marker 
-        [latitude]="latitude" 
-        [longitude]="longitude"
-        [iconUrl]="icon"
-    ></agm-marker>
-
-    <agm-direction [origin]="origin" [destination]="destination">
-    </agm-direction>
-
-
-</agm-map>
-
-
-<div class="form-group">
-    <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
-</div>
-<agm-map [latitude]="lat" [longitude]="lng">
-    <agm-direction [origin]="origin" [destination]="destination">
-    </agm-direction>
-</agm-map> --> 
-
 <!-- Tìm kiếm địa điểm -->
-<div class="container">
+<app-border></app-border>
+<app-driver-register *ngIf="IsShowSignUpComponent"></app-driver-register>
+<app-driver-login *ngIf="IsShowSignInComponent"></app-driver-login>
+<div *ngIf="IsShowMapComponent" class="container">
   <div class="form-group">
     <input placeholder="Nhập điểm bắt đầu..." autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #searchFrom [formControl]="searchFromControl">
   </div>
@@ -87,3 +61,4 @@
 <!--END Chọn điểm tới nhanh -->
 
 </div>
+

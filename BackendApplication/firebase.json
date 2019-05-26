@@ -18,7 +18,7 @@
         "destination": "/index.html"
       },
       {
-        "source": "/signup/username/:uname/password/:pword",
+        "source": "/signup/username/:uname/password/:pword/name/:name/phone/:phone/lisense/:lisense",
         "function": "app"
       },
       {
@@ -27,14 +27,6 @@
       },
       {
         "source": "/DriverReady/token/:token/lat/:lat/lng/:lng",
-        "function": "app"
-      },
-      {
-        "source": "/DriverReady/OnMissionNotify/token/:token",
-        "function": "app"
-      },
-      {
-        "source": "/DriverReady/OnMissionNotify/token/:token/IsOnMission/:IsOnMission",
         "function": "app"
       }
     ]

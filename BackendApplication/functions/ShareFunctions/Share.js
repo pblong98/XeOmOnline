@@ -9,13 +9,16 @@ admin.initializeApp({
 // Get a reference to the database service
 var database = admin.database();
 
-async function SignUp(username, password) {   
+async function SignUp(username, password, name, phone, lisense) {   
     var response = "fail"; 
     await CheckSigupInfo(username).then((data)=>{
         if(data === true)
         {
-            database.ref("DriverAccount/"+username).set({Password: password});
-            database.ref("AccessToken/"+username).set(crypto.randomBytes(20).toString('hex'));
+            database.ref("DriverAccount/").child(username).child("Password").set(password);
+            database.ref("DriverAccount/").child(username).child("Name").set(name);
+            database.ref("DriverAccount/").child(username).child("Phone").set(phone);
+            database.ref("DriverAccount/").child(username).child("LisensePlate").set(lisense);
+            database.ref("AccessToken/").child(username).set(crypto.randomBytes(20).toString('hex'));
             response = username;
         }
         return;
@@ -106,6 +109,7 @@ async function DriverUploadPosition(token, lat, lng) {
     var DriverUserName; 
     await GetUserFromToken(token).then((user)=>{
         DriverUserName = user;
+        return;
     });
     //console.log(DriverUserName);
     if(DriverUserName !== "")
@@ -125,28 +129,26 @@ async function CheckIfDriverOnMission(driver)
         {
             isOk = true;
         }
+        return;
     }).catch((e)=>{
         isOk = false;
     });
     return isOk;
 }
 
-async function DriverOnMissionNotify(token,IsOnMission) {   
+async function DriverNewMissionNotify(DriverUserName,NotifyId) {   
     var status = false;
-    var DriverUserName; 
     var CheckReadyStatus;
-    await GetUserFromToken(token).then((user)=>{
-        DriverUserName = user;
-    });
     await CheckIfDriverOnMission(DriverUserName).then((data)=>{
         if(data === true)
         {
             CheckReadyStatus = true;
         }
+        return;
     });
     if(CheckReadyStatus === true)
     {
-        await database.ref('DriverReady/'+DriverUserName).child('IsOnMission').set(IsOnMission);
+        database.ref('DriverOnMission/'+DriverUserName).child('Notification').set(NotifyId);
         status = true;
     }
     else
@@ -159,7 +161,7 @@ async function DriverOnMissionNotify(token,IsOnMission) {
 module.exports.SignUp = SignUp;
 module.exports.SignIn = SignIn;
 module.exports.DriverUploadPosition = DriverUploadPosition;
-module.exports.DriverOnMissionNotify = DriverOnMissionNotify;
+module.exports.DriverNewMissionNotify = DriverNewMissionNotify;
 
 
 
