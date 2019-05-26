@@ -39,7 +39,8 @@ export class DriverRegisterComponent implements OnInit {
     }
     this.ApiService.SignUp(this.username,this.password,this.name,this.phone,this.licenseplates).subscribe(data => {
       console.log(data);
-      if(data == "fail")
+      var _data:any = data;
+      if(_data.status == "fail")
       {
         this.mess = "Tài khoản đã tồn tại !";
         return;

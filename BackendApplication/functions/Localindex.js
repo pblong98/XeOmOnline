@@ -21,15 +21,17 @@ app.use(cors({
 }));
 
 app.get('/signup/username/:uname/password/:pword/name/:name/phone/:phone/lisense/:lisense', (req, res) => {
-    var data = "fail";
+    var response = {status: "fail", mess:""};
     share.SignUp(req.params.uname, req.params.pword, req.params.name, req.params.phone, req.params.lisense).then((result) => {
-        data = result;
-        res.send(data);
+        response.mess = result;
+        response.status = "ok";
+        res.send(response);
         console.log("New user: " + data);
         return;
     }).catch((e)=>{
-        data = "fail";
-        res.send(data);
+        response.mess = "";
+        response.status = "fail";
+        res.send(response);
         return;
     });
 });
