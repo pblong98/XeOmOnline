@@ -1,0 +1,128 @@
+
+body{
+    font-family:Arial,sans-serif;
+  }
+  #cha{
+    height:850px;
+    width:750px;
+    padding:20px 5px;
+    margin: 0 auto;
+    background: white;
+    border-radius:25px;
+    position: relative;
+    background:#00FFFF;
+  }
+  .main{
+    
+    height:750px;
+    width:700px;
+    padding:20px;
+    margin: 0 auto;
+    background: white;
+    border: 5px solid #00FFFF;
+    
+  }
+
+  h1{
+  text-align: center;
+  margin:0 auto;
+   color:white;
+  }
+#tentable{
+  text-align:center;
+  font-size:50px;
+  color:green;
+  font-weight:bold;
+  
+}
+
+span{
+  color:white;
+}
+#box{
+  margin-top:100px;
+}
+
+.bt1{
+     font-size:60px;
+    background:orange;
+    padding:1.2em 1.4em;
+    border:none;
+    margin:5px;
+    border-radius:6px;
+    transition:0.5s;
+}
+.bt1 span{
+    position:relative;
+    display:inline-block;
+    cursor:pointer;
+    transition:0.5s;
+}
+.bt1 span:after{
+    content:"\OK";
+    position:absolute;
+    right:-15px;
+    transition:0.5s;
+    opacity:0;
+  color:red;
+}
+.bt1:hover span{
+    padding-right:120px;
+}
+.bt1:hover span:after{
+    opacity:1;
+    right:0;
+}
+.bt1{ 
+    box-shadow:0 9px gray;
+    cursor:pointer;
+    outline:none;
+}
+.bt1:active{
+    transform:translate(0,4px);
+  -webkit-transform:translate(0,4px);
+    box-shadow:0 4px gray;  
+}
+
+.bt2{
+     font-size:60px;
+    background:green;
+    padding:1.2em 1.4em;
+    border:none;
+    margin:5px;
+    border-radius:6px;
+    transition:0.5s;
+}
+.bt2 span{
+    position:relative;
+    display:inline-block;
+    cursor:pointer;
+    transition:0.5s;
+}
+.bt2 span:after{
+    content:"\OK";
+    position:absolute;
+    right:-15px;
+    transition:0.5s;
+    opacity:0;
+  color:red;
+}
+.bt2:hover span{
+    padding-right:120px;
+}
+.bt2:hover span:after{
+    opacity:1;
+    right:0;
+}
+.bt2{ 
+    box-shadow:0 9px gray;
+    cursor:pointer;
+    outline:none;
+}
+.bt2:active{
+    transform:translate(0,4px);
+  -webkit-transform:translate(0,4px);
+    box-shadow:0 4px gray;  
+}
+
+
