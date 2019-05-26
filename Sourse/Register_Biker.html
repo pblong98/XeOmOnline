@@ -5,46 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/style_biker.css"/>
+    <link rel="stylesheet" href="css/style_biker_register.css" />
     <title>Register</title>
 </head>
 
 <body>
-    <header>
-        <h1><span>Xe Ôm Online</span></h1>
-    </header>
-    <div>
+<div id="cha">
+  <h1>Xe Ôm Online</h1>
+    <div class="main">
         <form action="GET" class="dangkybiker">
+          <div id="tentable">TÀI XẾ ĐĂNG KÝ</div>
             <table>
-                <tbody class="body_form">
+                <tbody >
                     <tr>
-                        <th colspan="2">
-                            TÀI XẾ ĐĂNG KÝ
-                        </th>
+                        <td >Họ Tên:</td>
+                        <td><input class="td_text" type="text" id="hoten" placeholder="Nhập họ tên" /></td>
                     </tr>
                     <tr>
-                        <td class="td_text">Họ Tên:</td>
-                        <td><input type="text" id="hoten" placeholder="Nhập họ tên" /></td>
+                        <td >Mật khẩu:</td>
+                        <td><input class="td_text" id="pass" type="password" placeholder="Nhập password" /></td>
                     </tr>
                     <tr>
-                        <td class="td_text">Mật khẩu:</td>
-                        <td><input id="pass" type="password" placeholder="Nhập password" /></td>
+                        <td >Nhập lại mật khẩu:</td>
+                        <td><input class="td_text" id="confirmpass" type="password" placeholder="Nhập lại password" /></td>
                     </tr>
                     <tr>
-                        <td class="td_text">Nhập lại mật khẩu:</td>
-                        <td><input id="confirmpass" type="password" placeholder="Nhập lại password" /></td>
+                        <td >Số điện thoại:</td>
+                        <td><input class="td_text" id="phone" type="text" placeholder="Nhập số điện thoại" /></td>
                     </tr>
                     <tr>
-                        <td class="td_text">Số điện thoại:</td>
-                        <td><input id="phone" type="text" placeholder="Nhập số điện thoại" /></td>
+                        <td >Biển số xe:</td>
+                        <td><input class="td_text" id="id_bike" type="text" placeholder="Nhập biển số xe" /></td>
                     </tr>
                     <tr>
-                        <td class="td_text">Biển số xe:</td>
-                        <td><input id="id_bike" type="text" placeholder="Nhập biển số xe" /></td>
-                    </tr>
-                    <tr>
-                        <td class="td_text">Hình đại diện:</td>
+                        <td >Hình đại diện:</td>
                         <td><input id="image_face" type="file" /></td>
                     </tr>
                 </tbody>
@@ -52,6 +46,7 @@
         </form>
         <button id="btb_register" class="btn_register">Đăng ký</button>
     </div>
+  </div>
 </body>
 
 </html>
