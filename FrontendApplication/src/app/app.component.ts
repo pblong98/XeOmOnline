@@ -225,7 +225,7 @@ export class AppComponent {
     return Math.sqrt(Math.pow(absfrom_latitude - absto_latitude,2) + Math.pow(absfrom_longtitude - absto_longtitude,2));
   }
 
-  protected mapReady(map) {
+  public mapReady(map) {
     this.map = map;
   }
 

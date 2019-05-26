@@ -1,5 +1,6 @@
 const ServiceAccount = require("../xeomonlinebackend-firebase-adminsdk-03zi2-78fb8dab8e.json");
 const admin = require('firebase-admin');
+var crypto = require("crypto");
 admin.initializeApp({
     credential: admin.credential.cert(ServiceAccount),
     databaseURL: "https://xeomonlinebackend.firebaseio.com"
@@ -8,25 +9,157 @@ admin.initializeApp({
 // Get a reference to the database service
 var database = admin.database();
 
-async function SignUp(username, password) {
-    var returnStatus = "nothing";
-    await database.ref("DriverAccount").once('value').then(function(snapshot) {
-        returnStatus = snapshot.val().Admin.Password;
+async function SignUp(username, password) {   
+    var response = "fail"; 
+    await CheckSigupInfo(username).then((data)=>{
+        if(data === true)
+        {
+            database.ref("DriverAccount/"+username).set({Password: password});
+            database.ref("AccessToken/"+username).set(crypto.randomBytes(20).toString('hex'));
+            response = username;
+        }
+        return;
     });
-    return returnStatus;
-    
-    // console.log("out:      "+returnStatus)
-    // return returnStatus;
-
-    // database.ref("DriverAccount/"+username).set({
-    //     AccessToken:"",
-    //     Password: password
-    // });
+    return response;
 }
 
+async function SignIn(username, password) {   
+    var response = {status: "fail", token:""}; 
+    await CheckSiginInfo(username, password).then((data)=>{
+        {
+            //console.log(data);
+            response = data;
+        }
+        
+        return;
+    });
+    return response;
+}
 
-var mess = "Do an web 2 backend";
-module.exports.mess = mess;
+async function CheckSigupInfo(username)
+{
+    var isOK = true;
+    await database.ref("DriverAccount").child(username).once('value').then((data) => {
+        if(data.val() === null)
+        {
+            isOK = true;
+        }
+        else 
+        {
+            isOK = false;
+        }
+        return isOK;
+    });
+    return isOK;
+}
+
+async function CheckSiginInfo(username, password)
+{
+    var response = {status: "fail", token:""}; 
+    var isOk = false;
+
+    await database.ref("DriverAccount").child(username).once('value').then((data) => {
+        
+        if(data.val().Password === password)
+        {
+            isOk = true;
+        }
+        return;
+    });
+    
+    if(isOk)
+    {
+        await database.ref("AccessToken").child(username).once('value').then((data) => {
+            //console.log(username + "||" + data.key);
+            if(data.val() !== null)
+            {
+                response.status = "ok";
+                response.token = data.val();
+            }
+            else 
+            {
+                response.token = "";
+            }
+            return;
+        });
+    }
+    //console.log(response);
+    return response;
+}
+
+async function GetUserFromToken(token)
+{
+    var UserName = "";
+    var querydata = "";
+    await database.ref('AccessToken').orderByValue().equalTo(token).limitToFirst(1).once("value", function(snapshot) {
+        querydata = snapshot;
+    });
+
+    await querydata.forEach(function(data) {
+        UserName = data.key;
+    });
+    return UserName;
+}
+
+async function DriverUploadPosition(token, lat, lng) {   
+    var status = false;
+    var DriverUserName; 
+    await GetUserFromToken(token).then((user)=>{
+        DriverUserName = user;
+    });
+    //console.log(DriverUserName);
+    if(DriverUserName !== "")
+    {
+        await database.ref("DriverReady/"+DriverUserName).child('lat').set(lat);
+        await database.ref("DriverReady/"+DriverUserName).child('lng').set(lng);
+        status = true;
+    }
+    return status;
+}
+
+async function CheckIfDriverOnMission(driver)
+{
+    var isOk = false;
+    await database.ref('DriverReady/'+driver).once('value').then((data)=>{
+        if(data.val() !== null)
+        {
+            isOk = true;
+        }
+    }).catch((e)=>{
+        isOk = false;
+    });
+    return isOk;
+}
+
+async function DriverOnMissionNotify(token,IsOnMission) {   
+    var status = false;
+    var DriverUserName; 
+    var CheckReadyStatus;
+    await GetUserFromToken(token).then((user)=>{
+        DriverUserName = user;
+    });
+    await CheckIfDriverOnMission(DriverUserName).then((data)=>{
+        if(data === true)
+        {
+            CheckReadyStatus = true;
+        }
+    });
+    if(CheckReadyStatus === true)
+    {
+        await database.ref('DriverReady/'+DriverUserName).child('IsOnMission').set(IsOnMission);
+        status = true;
+    }
+    else
+    {
+        status = false;
+    }
+    return status;
+}
+
 module.exports.SignUp = SignUp;
+module.exports.SignIn = SignIn;
+module.exports.DriverUploadPosition = DriverUploadPosition;
+module.exports.DriverOnMissionNotify = DriverOnMissionNotify;
+
 
 
