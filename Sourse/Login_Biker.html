@@ -5,38 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/style_biker.css" />
-    <title>Register</title>
+    <link rel="stylesheet" href="css/login_biker.css" />
+    <title>Login</title>
 </head>
 
 <body>
-    <header>
-        <h1><span>Xe Ôm Online</span></h1>
-    </header>
-    <div>
-        <form action="GET" class="dangnhap">
+<div id="cha">
+  <h1>Xe Ôm Online</h1>
+    <div class="main">
+        <form action="GET" class="dangkybiker">
+          <div id="tentable">TÀI XẾ ĐĂNG NHẬP</div>
             <table>
-                <tbody class="body_form">
-                    <tr>
-                        <th colspan="2">
-                            TÀI XẾ ĐĂNG NHẬP
-                        </th>
+                <tbody >
+                   <tr>
+                        <td >Số điện thoại:</td>
+                        <td><input class="td_text" id="phone" type="text" placeholder="Nhập số điện thoại" /></td>
                     </tr>
                     <tr>
-                        <td class="td_text">Số điện thoại:</td>
-                        <td><input id="phone" type="text" placeholder="Nhập số điện thoại" /></td>
+                        <td >Mật khẩu:</td>
+                        <td><input class="td_text" id="pass" type="password" placeholder="Nhập password" /></td>
                     </tr>
-                    <tr>
-                        <td class="td_text">Mật khẩu:</td>
-                        <td><input id="pass" type="password" placeholder="Nhập password" /></td>
-                    </tr>
-
                 </tbody>
             </table>
         </form>
-        <button id="btn_login" class="btn_login">Đăng Nhập </button>
+        <button id="btb_register" class="btn_register">Đăng Nhập</button>
     </div>
+  </div>
 </body>
 
 </html>
