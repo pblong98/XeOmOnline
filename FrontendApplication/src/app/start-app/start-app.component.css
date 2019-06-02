@@ -1,0 +1,34 @@
+#Index {
+    margin: 0 auto;
+    height:520px;
+    width:670px;
+    position: relative;
+    top: -700px;
+    border-radius: 25px 25px 25px 25px;
+    padding: 30px;
+}
+
+#Index h1{
+    margin-bottom: 20%;
+}
+
+#PassBtn{
+    width: 50%;
+    height: 50%;
+    background: rgb(0, 194, 0);
+    border: none;
+    color: white;
+    font-size: 40px;
+    border-radius: 20px 0px 0px 20px;
+      
+}
+
+#DriverBtn{
+    width: 50%;
+    height: 50%;
+    background: rgb(255, 102, 0);
+    border: none;
+    color: white;
+    font-size: 40px;
+    border-radius: 0px 20px 20px 0px;
+}

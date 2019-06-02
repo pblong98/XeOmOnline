@@ -1,0 +1,18 @@
+#panel {
+    margin: 0 auto;
+    height:192px;
+    width:670px;
+    position: relative;
+    top: -740px;
+    border-radius: 25px 25px 25px 25px;
+    padding: 30px;
+    background: white;
+}
+
+.CustomBtn{
+    height: 50%;
+    width: 45%;
+    margin: 5% 0px 0px 28.5%;
+    color: white;
+    font-size: 25px;
+}

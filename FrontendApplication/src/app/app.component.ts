@@ -2,6 +2,7 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { FormControl } from "@angular/forms";
 import { MapsAPILoader } from '@agm/core';
 import { $ } from 'protractor';
+import {APIService} from './API.service';
 
 declare var google;
 
@@ -37,10 +38,15 @@ export class AppComponent {
   public destination = { lat: this.to_latitude, lng: this.to_longitude };
   public center = {lat: this.latitude, lng: this.longitude };
   protected map: any;
+  public AllDriverPosMarker:any;
 
   public IsShowSignUpComponent;
   public IsShowSignInComponent;
   public IsShowMapComponent;
+  public IsShowIndexComponent;
+  public IsInDriverMode;
+  public IsShowPassControlPanel;
+  public IsShowDriverControlPanel;
 
   icon = {
     url: "./assets/userMarker.png",
@@ -82,7 +88,8 @@ export class AppComponent {
 
   constructor(
     public mapsAPILoader: MapsAPILoader,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    public APIService: APIService
   ) { }
 
   ngOnInit() {
@@ -97,49 +104,7 @@ export class AppComponent {
     //set current position
     this.SetStartUpLocation();
     
-    //load from place Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchFromElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-
-          //set latitude, longitude and zoom
-          this.SetStartLocation(place.geometry.location.lat(), place.geometry.location.lng());
-
-        });
-      });
-    });
-
-    //load to place Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchToElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-
-          //set latitude, longitude and zoom
-          this.SetDestLocation(place.geometry.location.lat(), place.geometry.location.lng());
-        });
-      });
-    });
-    this.ComponentShowControl("in");
+    this.ComponentShowControl("ind");
     AppComponent.ThisApp = this;
   }
 
@@ -225,6 +190,15 @@ export class AppComponent {
     });
   }
 
+  public MoveViewToCenterOf3Point()
+  {
+    this.latitude = (Number(this.from_latitude) + Number(this.to_latitude) + Number(this.current_latitude)) / 3;
+    this.longitude = (Number(this.from_longitude) + Number(this.to_longitude) + Number(this.current_longitude)) / 3;
+    this.zoom = 16 - Number(this.DistanceCalculate(this.from_latitude, this.from_longitude, this.to_latitude, this.to_longitude)) * 100;
+    if(this.zoom < 11)
+      this.zoom = 11;
+  }
+
   public DistanceCalculate(absfrom_latitude, absfrom_longtitude, absto_latitude, absto_longtitude):Number
   {
     //alert('a');
@@ -239,6 +213,7 @@ export class AppComponent {
   public OnMapClicked(event) {
     this.QuickSelectedFrom = -1;
     this.QuickSelectedTo = -1;
+    this.ShowAllDriverMarker();
     if(!this.IsShowStartLocation && !this.IsShowDestLocation)
     {
       this.SetStartLocation(event.coords.lat, event.coords.lng);
@@ -265,6 +240,56 @@ export class AppComponent {
     }
   }
 
+  delay(ms) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(resolve, ms);
+    });
+  }
+
+  ShowAllDriverMarker() {
+    this.APIService.GetAllDriverPos().subscribe(data =>{
+      if(this.AllDriverPosMarker != null)
+      {
+        for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
+        {
+          this.AllDriverPosMarker[i].setMap(null);
+        }
+      }
+      else
+      {
+        this.AllDriverPosMarker = new Array();
+      }
+      
+      var listOfDriver = Object.getOwnPropertyNames(data);
+      // list of hardcoded positions markers 
+      var LatLngList = {
+        list : Array()   
+      };
+      
+      for(var i = 0; i < listOfDriver.length; i++)
+      {
+        LatLngList.list.push(data[listOfDriver[i]]);
+      }
+
+      //console.log(LatLngList.list);
+
+      //iterate latLng and add markers 
+      for(const data of LatLngList.list){
+        var marker = new google.maps.Marker({
+            position: data,
+            map: this.map,
+            icon: this.icon2
+        });
+        this.AllDriverPosMarker.push(marker);
+      }
+      this.delay(1000)
+      .then(() => {
+        this.ShowAllDriverMarker();
+      });     
+    });
+ };
+
+
   public ComponentShowControl(comp)
   {
     switch(comp)
@@ -273,16 +298,36 @@ export class AppComponent {
         this.IsShowSignInComponent = true;
         this.IsShowSignUpComponent = false;
         this.IsShowMapComponent = false;
+        this.IsShowIndexComponent = false;
+        this.IsInDriverMode = true;
+        this.IsShowPassControlPanel = false;
+        this.IsShowDriverControlPanel = false;
         break;
       case "up":
         this.IsShowSignInComponent = false;
         this.IsShowSignUpComponent = true;
         this.IsShowMapComponent = false;
+        this.IsShowIndexComponent = false;
+        this.IsInDriverMode = true;
+        this.IsShowPassControlPanel = false;
+        this.IsShowDriverControlPanel = false;
         break;
       case "map":
         this.IsShowSignInComponent = false;
         this.IsShowSignUpComponent = false;
         this.IsShowMapComponent = true;
+        this.IsShowIndexComponent = false;
+        this.IsShowPassControlPanel = !this.IsInDriverMode;
+        this.IsShowDriverControlPanel = this.IsInDriverMode;
+        break;
+      case "ind":
+        this.IsShowSignInComponent = false;
+        this.IsShowSignUpComponent = false;
+        this.IsShowMapComponent = false;
+        this.IsShowIndexComponent = true;
+        this.IsInDriverMode = false;
+        this.IsShowPassControlPanel = false;
+        this.IsShowDriverControlPanel = false;
         break;
     }
   }

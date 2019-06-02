@@ -26,7 +26,11 @@
         "function": "app"
       },
       {
-        "source": "/DriverReady/token/:token/lat/:lat/lng/:lng",
+        "source": "/DriverUploadPosition/token/:token/lat/:lat/lng/:lng",
+        "function": "app"
+      },
+      {
+        "source": "/GetAllDriverPos",
         "function": "app"
       }
     ]

@@ -51,4 +51,10 @@ export class DriverLoginComponent implements OnInit {
     AppComponent.ThisApp.ComponentShowControl("up");
   }
 
+  BackBtnClicked()
+  {
+    AppComponent.ThisApp.ComponentShowControl("ind");
+  }
+
+
 }

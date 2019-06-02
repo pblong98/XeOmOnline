@@ -1,0 +1,13 @@
+<div class="shadow-lg p-3 mb-5 rounded" id="panel">
+    <p *ngIf="isShoInfor" style="margin-left: 10px;" class="text-infor">{{requestTittle}}</p>
+    <p *ngIf="isShoInfor" style="margin-left: 10px;" class="text-infor">Từ vị trí ({{flat}}:{{flng}}) tới ({{tlat}}:{{tlng}}) </p>
+    <p *ngIf="isShoInfor" style="margin-left: 10px;" class="text-infor">Khoảng cách: {{distance}}  Giá tiền: {{money}} </p>
+
+    <button *ngIf="!isShoInfor && !isShowFinishBtn" (click)="ReadyForMission();" class="{{ClassButton}} CustomBtn">{{ButtonContent}}</button>
+    <div *ngIf="isShoInfor" class="btn-group" role="group" aria-label="Basic example">
+        <button *ngIf="!isShowFinishBtn" (click)="AppceptMission();" type="button" class="btn btn-success">Chấp nhận</button>
+        <button *ngIf="isShowFinishBtn" (click)="MissionFinishDriverConfirm();" class="btn btn-success">Xác nhận hoàn tất chuyến đi</button>
+        <button (click)="DriverDenieRequest();" class="btn btn-danger">Hủy chuyến</button>
+    </div>
+    <p *ngIf="isShowMess" style="text-align: center;" class="{{messstyle}}">{{mess}}</p>
+</div>

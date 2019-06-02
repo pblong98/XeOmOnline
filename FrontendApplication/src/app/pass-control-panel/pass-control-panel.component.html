@@ -1,0 +1,29 @@
+<div class="shadow-lg p-3 mb-5 rounded" id="panel">        
+        <table *ngIf="IsShowDriverInfor" style="width: 100%; margin-left: 10%;">
+            <tr>
+                <th style="width: 20%;" rowspan="3"><img style="width: 100px; height: 100px;" src="{{Driver_Avatar}}"/></th>
+                <td style="width: 30%;">Họ tên</td>
+                <td style="width: 50%;">{{Driver_Name}}</td>
+            </tr>
+            <tr>
+                <td>Số điện thoại</td>
+                <td>{{Driver_Phone}}</td>
+            </tr>
+            <tr>
+                <td>Biển số</td>
+                <td>{{Driver_LisensePlate}}</td>
+            </tr>
+        </table>
+
+        <p *ngIf="IsShowDriverInfor" style="margin-left: 10px; margin-top: 20px; text-align: center; " class="text-infor">{{DriverStatusContent}}</p>
+
+        <div *ngIf="ConfirmBtn" style="margin-left: 21%;" class="btn-group" role="group" aria-label="Basic example">
+            <button (click)="PassengerFinishConfirm();" class="btn btn-success">Xác nhận hoàn tất chuyến đi</button>
+            <button (click)="PassengerDestroyRequest();" class="btn btn-danger">Hủy chuyến</button>
+        </div>
+
+        <div *ngIf="!IsShowDriverInfor">
+            <button (click)="CreatePassengerRequest();" id="BookBtn" class="{{ButtonClass}}">{{ButtonContent}}</button>
+            <p *ngIf="IsActive" style="margin-left: 10px; margin-top: 20px; text-align: center; " class="text-infor">Vui lòng chờ...</p>
+        </div>
+    </div>

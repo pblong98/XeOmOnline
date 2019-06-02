@@ -50,12 +50,26 @@ app.get('/signin/username/:uname/password/:pword', (req, res) => {
     });
 });
 
-app.get('/DriverReady/token/:token/lat/:lat/lng/:lng', (req, res) => {
+app.get('/DriverUploadPosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
     var token = req.params.token;
     var lat = req.params.lat;
     var lng = req.params.lng;
     var response = false;
+    
     share.DriverUploadPosition(token,lat,lng).then((result)=>{
+        response = result;
+        res.send(response);
+        return;
+    }).catch((e)=>{
+        response = false;
+        res.send(response);
+        return;
+    });
+});
+
+app.get('/GetAllDriverPos', (req, res) => {
+    var response = "";
+    share.GetAllDriverPosition().then((result)=>{
         response = result;
         res.send(response);
         return;

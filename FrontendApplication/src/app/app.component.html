@@ -1,9 +1,10 @@
-<!-- Tìm kiếm địa điểm -->
+
 <app-border></app-border>
+<app-start-app *ngIf="IsShowIndexComponent"></app-start-app>
 <app-driver-register *ngIf="IsShowSignUpComponent"></app-driver-register>
 <app-driver-login *ngIf="IsShowSignInComponent"></app-driver-login>
 <div *ngIf="IsShowMapComponent" class="container">
-  <div class="form-group">
+  <div *ngIf="!IsInDriverMode" class="form-group">
     <input placeholder="Nhập điểm bắt đầu..." autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #searchFrom [formControl]="searchFromControl">
   </div>
   <div class="form-group">
@@ -39,7 +40,7 @@
 
 <!-- Chọn điểm tới nhanh -->
 <div>
-    <select style="width: 44%" class="btn btn-success" [(ngModel)]="QuickSelectedFrom" (change)="QuickSelectLocaltion($event,'from')">
+    <select *ngIf="!IsInDriverMode" style="width: 44%" class="btn btn-success" [(ngModel)]="QuickSelectedFrom" (change)="QuickSelectLocaltion($event,'from')">
         <option class="QuickSelectLocationCbbItems" value="-1">Chọn nhanh điểm bắt đầu</option>
         <option class="QuickSelectLocationCbbItems" value="10.762910394759604,106.6823867676726">Trường ĐH KHTN cơ sở NVC</option>
         <option class="QuickSelectLocationCbbItems" value="10.875801219367842,106.79910957813263">Trường ĐH KHTN cơ sở Linh Trung</option>
@@ -47,8 +48,9 @@
         <option class="QuickSelectLocationCbbItems" value="10.777123484220342,106.69569525573843">Dinh độc lập</option>
         <option class="QuickSelectLocationCbbItems" value="10.7877325,106.7044817">Thảo cầm viên</option>
     </select>
+    <button *ngIf="IsInDriverMode" style="width: 44%" class="btn btn-success">Lịch sử</button>
     <img style="width: 10%; margin: 1%"  id="UserLocationIcon" src="../assets/userMarkerbtn.png" (click)="MoveViewToPoint(latitude,longitude,-1)"/>
-    <select style="width: 44%" class="btn btn-primary" [(ngModel)]="QuickSelectedTo" (change)="QuickSelectLocaltion($event, 'to')">
+    <select *ngIf="!IsInDriverMode" style="width: 44%" class="btn btn-primary" [(ngModel)]="QuickSelectedTo" (change)="QuickSelectLocaltion($event, 'to')">
         <option class="QuickSelectLocationCbbItems" value="-1">Chọn nhanh điểm cần tới</option>
         <option class="QuickSelectLocationCbbItems" value="10.7761703,106.6907275">Trường ĐH mở TPHCM</option>
         <option class="QuickSelectLocationCbbItems" value="10.779169,106.6912236">Bảo tàng chứng tích chiến tranh</option>
@@ -57,8 +59,12 @@
         <option class="QuickSelectLocationCbbItems" value="10.7688618,106.6371336">Đầm sen nước</option>
         <option class="QuickSelectLocationCbbItems" value="10.7725504,106.6958526">Chợ bến thành</option>
     </select>
+    <button *ngIf="IsInDriverMode" style="width: 44%" class="btn btn-primary">Thông báo</button>
 </div>
 <!--END Chọn điểm tới nhanh -->
 
 </div>
+<app-pass-control-panel *ngIf="IsShowPassControlPanel"></app-pass-control-panel>
+<app-driver-control-panel *ngIf="IsShowDriverControlPanel"></app-driver-control-panel>
+
 

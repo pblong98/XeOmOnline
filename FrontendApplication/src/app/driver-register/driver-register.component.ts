@@ -38,7 +38,7 @@ export class DriverRegisterComponent implements OnInit {
       return;
     }
     this.ApiService.SignUp(this.username,this.password,this.name,this.phone,this.licenseplates).subscribe(data => {
-      console.log(data);
+      //console.log(data);
       var _data:any = data;
       if(_data.status == "fail")
       {
@@ -62,7 +62,7 @@ export class DriverRegisterComponent implements OnInit {
 
   BackBtnClicked()
   {
-    AppComponent.ThisApp.ComponentShowControl("in");
+    AppComponent.ThisApp.ComponentShowControl("ind");
   }
 
 }
