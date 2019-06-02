@@ -17,6 +17,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { StartAppComponent } from './start-app/start-app.component';
 import { PassControlPanelComponent } from './pass-control-panel/pass-control-panel.component';
 import { DriverControlPanelComponent } from './driver-control-panel/driver-control-panel.component';
+import { DriverHistoryComponent } from './driver-history/driver-history.component';
 
 @NgModule({
   imports:      [ 
@@ -30,7 +31,7 @@ import { DriverControlPanelComponent } from './driver-control-panel/driver-contr
     AgmDirectionModule,
     HttpClientModule
    ],
-  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent, StartAppComponent, PassControlPanelComponent, DriverControlPanelComponent  ],
+  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent, StartAppComponent, PassControlPanelComponent, DriverControlPanelComponent, DriverHistoryComponent  ],
   providers:    [APIService, CookieService ],
   bootstrap:    [ AppComponent ]
 })

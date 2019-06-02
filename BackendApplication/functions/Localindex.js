@@ -213,6 +213,19 @@ app.get('/MissionFinishPassengerConfirm/:requestId', (req, res) => {
     });
 });
 
+app.get('/ShowHistory/:token', (req, res) => {
+    var token = req.params.token;
+    share.ShowHistory(token).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+
 
 
 

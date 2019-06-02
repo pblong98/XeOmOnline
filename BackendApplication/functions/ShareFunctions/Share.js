@@ -409,6 +409,24 @@ function SaveMissionHistory(RequestId)
     });
 }
 
+async function ShowHistory(token)
+{
+    var DriverUserName =null; 
+    var returnData = null;
+    await GetUserFromToken(token).then((user)=>{
+        DriverUserName = user;
+        return;
+    });
+
+    if(DriverUserName != null)
+    {
+        await database.ref('DriverAccount').child(DriverUserName).child('History').once('value').then(data =>{
+            returnData = data.val();
+        });
+    }
+    return returnData;
+}
+
 
 
 
@@ -427,6 +445,7 @@ module.exports.MissionFinishDriverConfirm = MissionFinishDriverConfirm;
 module.exports.MissionFinishPassengerConfirm = MissionFinishPassengerConfirm;
 module.exports.GetDriverInfor = GetDriverInfor;
 module.exports.DriverDeniePassengerRequest = DriverDeniePassengerRequest;
+module.exports.ShowHistory = ShowHistory;
 
 
 

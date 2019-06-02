@@ -106,6 +106,7 @@ export class AppComponent {
     
     this.ComponentShowControl("ind");
     AppComponent.ThisApp = this;
+    this.ShowAllDriverMarker();
   }
 
   public SetStartLocation(lat, lng) {
@@ -213,7 +214,6 @@ export class AppComponent {
   public OnMapClicked(event) {
     this.QuickSelectedFrom = -1;
     this.QuickSelectedTo = -1;
-    this.ShowAllDriverMarker();
     if(!this.IsShowStartLocation && !this.IsShowDestLocation)
     {
       this.SetStartLocation(event.coords.lat, event.coords.lng);
@@ -247,46 +247,49 @@ export class AppComponent {
   }
 
   ShowAllDriverMarker() {
-    this.APIService.GetAllDriverPos().subscribe(data =>{
-      if(this.AllDriverPosMarker != null)
-      {
-        for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
+    if(!this.IsInDriverMode)
+    {
+      this.APIService.GetAllDriverPos().subscribe(data =>{
+        if(this.AllDriverPosMarker != null)
         {
-          this.AllDriverPosMarker[i].setMap(null);
+          for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
+          {
+            this.AllDriverPosMarker[i].setMap(null);
+          }
         }
-      }
-      else
-      {
-        this.AllDriverPosMarker = new Array();
-      }
-      
-      var listOfDriver = Object.getOwnPropertyNames(data);
-      // list of hardcoded positions markers 
-      var LatLngList = {
-        list : Array()   
-      };
-      
-      for(var i = 0; i < listOfDriver.length; i++)
-      {
-        LatLngList.list.push(data[listOfDriver[i]]);
-      }
-
-      //console.log(LatLngList.list);
-
-      //iterate latLng and add markers 
-      for(const data of LatLngList.list){
-        var marker = new google.maps.Marker({
-            position: data,
-            map: this.map,
-            icon: this.icon2
-        });
-        this.AllDriverPosMarker.push(marker);
-      }
-      this.delay(1000)
-      .then(() => {
-        this.ShowAllDriverMarker();
-      });     
-    });
+        else
+        {
+          this.AllDriverPosMarker = new Array();
+        }
+        
+        var listOfDriver = Object.getOwnPropertyNames(data);
+        // list of hardcoded positions markers 
+        var LatLngList = {
+          list : Array()   
+        };
+        
+        for(var i = 0; i < listOfDriver.length; i++)
+        {
+          LatLngList.list.push(data[listOfDriver[i]]);
+        }
+  
+        //console.log(LatLngList.list);
+  
+        //iterate latLng and add markers 
+        for(const data of LatLngList.list){
+          var marker = new google.maps.Marker({
+              position: data,
+              map: this.map,
+              icon: this.icon2
+          });
+          this.AllDriverPosMarker.push(marker);
+        }
+        this.delay(1000)
+        .then(() => {
+          this.ShowAllDriverMarker();
+        });     
+      });
+    }
  };
 
 
