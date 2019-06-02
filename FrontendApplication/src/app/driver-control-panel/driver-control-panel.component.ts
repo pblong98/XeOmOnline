@@ -33,7 +33,7 @@ export class DriverControlPanelComponent implements OnInit {
   requestTittle = "Bạn nhận được yêu cầu mới: ";
   isShoInfor = false;
   isShowFinishBtn = false;
-
+  isFinish = false;
   CurrentReuestId = null;
 
   delay(ms) {
@@ -155,7 +155,7 @@ export class DriverControlPanelComponent implements OnInit {
     this.APIService.GetPassengerRequestResponse(this.CurrentReuestId).subscribe(data =>{
       //console.log(_data);
       var _data:any = data;
-      if(_data == null)
+      if(_data == null && !this.isFinish)
       {
         this.requestTittle = "Khách hàng đã hủy chuyến xe này !";
         this.HideRequestInfor();
@@ -168,6 +168,7 @@ export class DriverControlPanelComponent implements OnInit {
         {
           alert("Khách hàng đã xác nhận, chuyến đi kết thúc !");
           this.HideRequestInfor();
+          this.isFinish = false;
         }
         else
         {
@@ -187,6 +188,7 @@ export class DriverControlPanelComponent implements OnInit {
       this.isShoInfor = false;
       this.mess = "Bạn đã xác nhận hoàn tất chuyến đi, hãy đợi lượt của khách hàng...";
       this.isShowMess = true;
+      this.isFinish = true;
     });
   }
 
