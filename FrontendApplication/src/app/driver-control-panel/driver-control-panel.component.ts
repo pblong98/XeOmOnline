@@ -152,8 +152,9 @@ export class DriverControlPanelComponent implements OnInit {
 
   DriverListenMisionState()
   {
-    this.APIService.GetPassengerRequestResponse(this.CurrentReuestId).subscribe(_data =>{
-      console.log(_data);
+    this.APIService.GetPassengerRequestResponse(this.CurrentReuestId).subscribe(data =>{
+      //console.log(_data);
+      var _data:any = data;
       if(_data == null)
       {
         this.requestTittle = "Khách hàng đã hủy chuyến xe này !";

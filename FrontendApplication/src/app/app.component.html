@@ -59,7 +59,7 @@
         <option class="QuickSelectLocationCbbItems" value="10.7688618,106.6371336">Đầm sen nước</option>
         <option class="QuickSelectLocationCbbItems" value="10.7725504,106.6958526">Chợ bến thành</option>
     </select>
-    <button *ngIf="IsInDriverMode" style="width: 44%" class="btn btn-primary">Thông báo</button>
+    <button (click)="SignOut();"  *ngIf="IsInDriverMode" style="width: 44%" class="btn btn-danger">Đăng xuất</button>
 </div>
 <!--END Chọn điểm tới nhanh -->
 

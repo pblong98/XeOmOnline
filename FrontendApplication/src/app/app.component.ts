@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import { MapsAPILoader } from '@agm/core';
 import { $ } from 'protractor';
 import {APIService} from './API.service';
+import { CookieService } from 'ngx-cookie-service';
 
 declare var google;
 
@@ -81,16 +82,11 @@ export class AppComponent {
     }
   }
 
-  @ViewChild("searchFrom")
-  public searchFromElementRef: ElementRef;
-
-  @ViewChild("searchTo")
-  public searchToElementRef: ElementRef;
-
   constructor(
     public mapsAPILoader: MapsAPILoader,
     public ngZone: NgZone,
-    public APIService: APIService
+    public APIService: APIService,
+    private CookieService:CookieService
   ) { }
 
   ngOnInit() {
@@ -108,6 +104,7 @@ export class AppComponent {
     this.ComponentShowControl("ind");
     AppComponent.ThisApp = this;
     this.ShowAllDriverMarker();
+    this.CookieService.delete("token");
   }
 
   public SetStartLocation(lat, lng) {
@@ -291,8 +288,7 @@ export class AppComponent {
         });     
       });
     }
- };
-
+  };
 
   public ComponentShowControl(comp)
   {
@@ -353,5 +349,12 @@ export class AppComponent {
   public ShowHistory()
   {
     this.ComponentShowControl("his");
+  }
+
+  public SignOut()
+  {
+    this.CookieService.deleteAll();
+    this.ComponentShowControl("ind");
+    //console.log("df");
   }
 }
