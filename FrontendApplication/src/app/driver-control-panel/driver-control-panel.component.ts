@@ -169,6 +169,7 @@ export class DriverControlPanelComponent implements OnInit {
           alert("Khách hàng đã xác nhận, chuyến đi kết thúc !");
           this.HideRequestInfor();
           this.isFinish = false;
+          AppComponent.ThisApp.HideStartAndDestPoint();
         }
         else
         {

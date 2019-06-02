@@ -125,6 +125,17 @@ export class AppComponent {
     this.GetDirection();
   }
 
+  public HideStartAndDestPoint()
+  {
+    this.IsShowDestLocation = false;
+    this.IsShowStartLocation = false;
+    this.from_latitude = null;
+    this.from_longitude = null;
+    this.to_latitude = null;
+    this.to_longitude = null;
+    this.MoveViewToPoint(this.latitude, this.longitude,-1)
+  }
+
   public QuickSelectLocaltion(event, options) {
     var latlng = event.target.value;
     if(latlng == '-1')

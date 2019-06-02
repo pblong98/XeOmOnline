@@ -178,6 +178,7 @@ export class PassControlPanelComponent implements OnInit {
     this.APIService.MissionFinishPassengerConfirm(this.RequesId).subscribe(data=>{
       this.DriverStatusContent = "Bạn đã xác nhận hoàn tất chuyến đi !";
       alert("Chuyến đi kết thúc");
+      AppComponent.ThisApp.HideStartAndDestPoint();
       this.IsFinish = true;
       this.delay(1000).then(()=>{
         this.HideDriverInfor();
