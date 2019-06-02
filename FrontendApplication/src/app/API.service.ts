@@ -88,4 +88,9 @@ export class APIService {
   {
     return this._http.get(this.GetOrigin()+"/MissionFinishPassengerConfirm/"+RequestId);
   }
+
+  DriverGetAllHistory(token)
+  {
+    return this._http.get(this.GetOrigin()+"/ShowHistory/"+token);
+  }
 }

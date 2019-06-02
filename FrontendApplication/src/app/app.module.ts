@@ -18,6 +18,7 @@ import { StartAppComponent } from './start-app/start-app.component';
 import { PassControlPanelComponent } from './pass-control-panel/pass-control-panel.component';
 import { DriverControlPanelComponent } from './driver-control-panel/driver-control-panel.component';
 import { DriverHistoryComponent } from './driver-history/driver-history.component';
+import { HistoryItemComponent } from './history-item/history-item.component';
 
 @NgModule({
   imports:      [ 
@@ -31,7 +32,7 @@ import { DriverHistoryComponent } from './driver-history/driver-history.componen
     AgmDirectionModule,
     HttpClientModule
    ],
-  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent, StartAppComponent, PassControlPanelComponent, DriverControlPanelComponent, DriverHistoryComponent  ],
+  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent, StartAppComponent, PassControlPanelComponent, DriverControlPanelComponent, DriverHistoryComponent, HistoryItemComponent  ],
   providers:    [APIService, CookieService ],
   bootstrap:    [ AppComponent ]
 })

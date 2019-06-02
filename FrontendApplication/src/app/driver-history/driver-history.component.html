@@ -1,3 +1,9 @@
-<p>
-  driver-history works!
-</p>
+<div class="shadow-lg p-3 mb-5 bg-white rounded" id="RegisterTable">
+  <h2>Lịch sử</h2>
+  <div style="width: 100%; height: 80%; overflow-y: scroll;">
+    <div *ngFor="let i of scr">
+      <app-history-item [flat]="i.flat" [flng]="i.flng" [tlat]="i.tlat" [tlng]="i.tlng" [distance]="i.distance" [price]="i.price" ></app-history-item>
+    </div>
+  </div>
+  <button (click)="back();" type="button" class="shadow btn btn-lg btn-success">Quay lại</button>
+</div>

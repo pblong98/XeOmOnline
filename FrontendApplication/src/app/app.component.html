@@ -48,7 +48,7 @@
         <option class="QuickSelectLocationCbbItems" value="10.777123484220342,106.69569525573843">Dinh độc lập</option>
         <option class="QuickSelectLocationCbbItems" value="10.7877325,106.7044817">Thảo cầm viên</option>
     </select>
-    <button *ngIf="IsInDriverMode" style="width: 44%" class="btn btn-success">Lịch sử</button>
+    <button (click)="ShowHistory();" *ngIf="IsInDriverMode" style="width: 44%" class="btn btn-success">Lịch sử</button>
     <img style="width: 10%; margin: 1%"  id="UserLocationIcon" src="../assets/userMarkerbtn.png" (click)="MoveViewToPoint(latitude,longitude,-1)"/>
     <select *ngIf="!IsInDriverMode" style="width: 44%" class="btn btn-primary" [(ngModel)]="QuickSelectedTo" (change)="QuickSelectLocaltion($event, 'to')">
         <option class="QuickSelectLocationCbbItems" value="-1">Chọn nhanh điểm cần tới</option>
@@ -66,5 +66,6 @@
 </div>
 <app-pass-control-panel *ngIf="IsShowPassControlPanel"></app-pass-control-panel>
 <app-driver-control-panel *ngIf="IsShowDriverControlPanel"></app-driver-control-panel>
+<app-driver-history *ngIf="IsShowDriverHistory"></app-driver-history>
 
 

@@ -47,6 +47,7 @@ export class AppComponent {
   public IsInDriverMode;
   public IsShowPassControlPanel;
   public IsShowDriverControlPanel;
+  public IsShowDriverHistory;
 
   icon = {
     url: "./assets/userMarker.png",
@@ -305,6 +306,7 @@ export class AppComponent {
         this.IsInDriverMode = true;
         this.IsShowPassControlPanel = false;
         this.IsShowDriverControlPanel = false;
+        this.IsShowDriverHistory = false;
         break;
       case "up":
         this.IsShowSignInComponent = false;
@@ -314,6 +316,7 @@ export class AppComponent {
         this.IsInDriverMode = true;
         this.IsShowPassControlPanel = false;
         this.IsShowDriverControlPanel = false;
+        this.IsShowDriverHistory = false;
         break;
       case "map":
         this.IsShowSignInComponent = false;
@@ -322,6 +325,7 @@ export class AppComponent {
         this.IsShowIndexComponent = false;
         this.IsShowPassControlPanel = !this.IsInDriverMode;
         this.IsShowDriverControlPanel = this.IsInDriverMode;
+        this.IsShowDriverHistory = false;
         break;
       case "ind":
         this.IsShowSignInComponent = false;
@@ -331,7 +335,23 @@ export class AppComponent {
         this.IsInDriverMode = false;
         this.IsShowPassControlPanel = false;
         this.IsShowDriverControlPanel = false;
+        this.IsShowDriverHistory = false;
+        break;
+      case "his":
+        this.IsShowSignInComponent = false;
+        this.IsShowSignUpComponent = false;
+        this.IsShowMapComponent = false;
+        this.IsShowIndexComponent = false;
+        this.IsInDriverMode = false;
+        this.IsShowPassControlPanel = false;
+        this.IsShowDriverControlPanel = false;
+        this.IsShowDriverHistory = true;
         break;
     }
+  }
+
+  public ShowHistory()
+  {
+    this.ComponentShowControl("his");
   }
 }

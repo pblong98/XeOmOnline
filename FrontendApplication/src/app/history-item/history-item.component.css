@@ -1,0 +1,15 @@
+.item{
+    width: 90%;
+    height: 100px;
+    background: #fdff9e;
+    margin-left: 5%;
+    margin-top: 5px; 
+    padding: 10px;
+}
+
+.item p {
+    color: #003a69;
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold
+}
