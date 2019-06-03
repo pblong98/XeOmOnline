@@ -42,8 +42,7 @@ async function SignIn(username, password) {
         {
             //console.log(data);
             response = data;
-        }
-        
+        }      
         return;
     });
     return response;
@@ -126,7 +125,7 @@ async function GetDriverInfor(driver)
     return data;
 }
 
-async function DriverUploadPosition(token, lat, lng) {   
+async function DriverInitPosition(token, lat, lng) {   
     var status = false;
     var DriverUserName; 
     await GetUserFromToken(token).then((user)=>{
@@ -139,6 +138,33 @@ async function DriverUploadPosition(token, lat, lng) {
         await database.ref("DriverReady/"+DriverUserName).child('lat').set(Number(lat));
         await database.ref("DriverReady/"+DriverUserName).child('lng').set(Number(lng));
         await database.ref("DriverReady/"+DriverUserName).child('Notification').set("");
+        status = true;
+    }
+    return status;
+}
+
+async function DriverUpdatePosition(token, lat, lng)
+{
+    var status = false;
+    var DriverUserName; 
+    await GetUserFromToken(token).then((user)=>{
+        DriverUserName = user;
+        return;
+    });
+    //console.log(DriverUserName);
+    var isInMission = false;
+    await CheckIfDriverOnMission(DriverUserName).then(data=>{
+        isInMission = data;
+    });
+    console.log(isInMission);
+    if(DriverUserName !== "" && isInMission)
+    {
+        await database.ref("DriverReady/"+DriverUserName).child('Notification').once("value").then(data =>{
+            //console.log(lat+ "           "+ lng)
+            database.ref("DriverReady/"+DriverUserName).child('lat').set(Number(lat));
+            database.ref("DriverReady/"+DriverUserName).child('lng').set(Number(lng));
+            database.ref("DriverReady/"+DriverUserName).child('Notification').set(data.val());
+        })
         status = true;
     }
     return status;
@@ -427,12 +453,22 @@ async function ShowHistory(token)
     return returnData;
 }
 
+async function GetSingleDriverLocation(driver)
+{
+    var data = null;
+    await database.ref("DriverReady").child(driver).once("value").then(_data=>{
+        data = _data;
+    });
+    return data;
+}
+
 
 
 
 module.exports.SignUp = SignUp;
 module.exports.SignIn = SignIn;
-module.exports.DriverUploadPosition = DriverUploadPosition;
+module.exports.DriverInitPosition = DriverInitPosition;
+module.exports.DriverUpdatePosition = DriverUpdatePosition;
 module.exports.GetAllDriverPosition = GetAllDriverPosition;
 module.exports.DriverUnready = DriverUnready;
 module.exports.CreatePassengerRequest = CreatePassengerRequest;
@@ -446,6 +482,7 @@ module.exports.MissionFinishPassengerConfirm = MissionFinishPassengerConfirm;
 module.exports.GetDriverInfor = GetDriverInfor;
 module.exports.DriverDeniePassengerRequest = DriverDeniePassengerRequest;
 module.exports.ShowHistory = ShowHistory;
+module.exports.GetSingleDriverLocation = GetSingleDriverLocation;
 
 
 

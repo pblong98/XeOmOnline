@@ -55,6 +55,7 @@ export class DriverControlPanelComponent implements OnInit {
         if(data == true)
         {
           this.DriverListeningToNotification();
+          this.DriverUploadPosition();
         }
       });
     }
@@ -62,6 +63,28 @@ export class DriverControlPanelComponent implements OnInit {
     {
       this.APIService.DriverUnready(this.CookieService.get("token")).subscribe(()=>{});
       this.HideRequestInfor();
+    }
+  }
+
+  DriverUploadPosition()
+  {
+    //console.log(this.IsReady);
+    if(this.IsReady)
+    {
+      if(AppComponent.ThisApp.IsInSimulatorMode)
+      {
+        AppComponent.ThisApp.SetStartUpLocation();
+      }
+      this.APIService.UpdateDriverPos(this.CookieService.get('token'),AppComponent.ThisApp.current_latitude, AppComponent.ThisApp.current_longitude).subscribe(data=>{
+        console.log(data);
+        if(data == true)
+        {
+          
+          this.delay(1000).then(()=>{
+            this.DriverUploadPosition();
+          });  
+        }
+      });
     }
   }
 
@@ -131,7 +154,8 @@ export class DriverControlPanelComponent implements OnInit {
   DriverUnready()
   {
     this.HideRequestInfor();
-    this.APIService.DriverUnready(this.CookieService.get("token")).subscribe(()=>{});
+    this.APIService.DriverUnready(this.CookieService.get("token")).subscribe(()=>{
+    });
   }
 
   DriverDenieRequest()

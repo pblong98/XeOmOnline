@@ -49,6 +49,9 @@ export class AppComponent {
   public IsShowPassControlPanel;
   public IsShowDriverControlPanel;
   public IsShowDriverHistory;
+  public IsJustShow1Driver =false;
+  public IsInSimulatorMode = false;
+  public currentDriver;
 
   icon = {
     url: "./assets/userMarker.png",
@@ -103,7 +106,6 @@ export class AppComponent {
     
     this.ComponentShowControl("ind");
     AppComponent.ThisApp = this;
-    this.ShowAllDriverMarker();
     this.CookieService.delete("token");
   }
 
@@ -129,6 +131,8 @@ export class AppComponent {
   {
     this.IsShowDestLocation = false;
     this.IsShowStartLocation = false;
+    this.QuickSelectedFrom = -1;
+    this.QuickSelectedTo = -1;
     this.from_latitude = null;
     this.from_longitude = null;
     this.to_latitude = null;
@@ -223,6 +227,7 @@ export class AppComponent {
   public OnMapClicked(event) {
     this.QuickSelectedFrom = -1;
     this.QuickSelectedTo = -1;
+    //this.ShowAllDriverMarker();
     if(!this.IsShowStartLocation && !this.IsShowDestLocation)
     {
       this.SetStartLocation(event.coords.lat, event.coords.lng);
@@ -258,46 +263,96 @@ export class AppComponent {
   ShowAllDriverMarker() {
     if(!this.IsInDriverMode)
     {
-      this.APIService.GetAllDriverPos().subscribe(data =>{
-        if(this.AllDriverPosMarker != null)
-        {
-          for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
+      //console.log("passenger Mode");
+      if(!this.IsJustShow1Driver)
+      {
+        //console.log("show all driver");
+        this.APIService.GetAllDriverPos().subscribe(data =>{
+          if(this.AllDriverPosMarker != null)
           {
-            this.AllDriverPosMarker[i].setMap(null);
+            for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
+            {
+              this.AllDriverPosMarker[i].setMap(null);
+            }
           }
-        }
-        else
+          else
+          {
+            this.AllDriverPosMarker = new Array();
+          }
+          if(data != null)
+          {
+            var listOfDriver = Object.getOwnPropertyNames(data);
+            // list of hardcoded positions markers 
+            var LatLngList = {
+              list : Array()   
+            };
+            
+            for(var i = 0; i < listOfDriver.length; i++)
+            {
+              LatLngList.list.push(data[listOfDriver[i]]);
+            }
+      
+            //console.log(LatLngList.list);
+      
+            //iterate latLng and add markers 
+            for(const data of LatLngList.list){
+              var marker = new google.maps.Marker({
+                  position: data,
+                  map: this.map,
+                  icon: this.icon2
+              });
+              this.AllDriverPosMarker.push(marker);
+            }
+          }
+          this.delay(1000)
+          .then(() => {
+            this.ShowAllDriverMarker();
+          });   
+            
+        });
+      }
+      else
+      {
+        console.log("show 1 driver");
+        this.APIService.GetSingleDriverLocation(this.currentDriver).subscribe(_data=>
         {
-          this.AllDriverPosMarker = new Array();
-        }
-        
-        var listOfDriver = Object.getOwnPropertyNames(data);
-        // list of hardcoded positions markers 
-        var LatLngList = {
-          list : Array()   
-        };
-        
-        for(var i = 0; i < listOfDriver.length; i++)
-        {
-          LatLngList.list.push(data[listOfDriver[i]]);
-        }
-  
-        //console.log(LatLngList.list);
-  
-        //iterate latLng and add markers 
-        for(const data of LatLngList.list){
-          var marker = new google.maps.Marker({
-              position: data,
-              map: this.map,
-              icon: this.icon2
-          });
-          this.AllDriverPosMarker.push(marker);
-        }
-        this.delay(1000)
-        .then(() => {
-          this.ShowAllDriverMarker();
-        });     
-      });
+          if(_data != null)
+          {
+            var _:any = _data;
+            var data = _.data;
+            console.log("signle: " + data);
+            if(this.AllDriverPosMarker != null)
+            {
+              for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
+              {
+                this.AllDriverPosMarker[i].setMap(null);
+              }
+            }
+            else
+            {
+              this.AllDriverPosMarker = new Array();
+            }
+
+            var LatLngList = {
+              list : Array()   
+            };
+
+            LatLngList.list.push({lat: data.lat, lng:data.lng});
+            for(const data of LatLngList.list){
+              var marker = new google.maps.Marker({
+                  position: data,
+                  map: this.map,
+                  icon: this.icon2
+              });
+              this.AllDriverPosMarker.push(marker);
+            }
+          }
+          this.delay(1000)
+          .then(() => {
+            this.ShowAllDriverMarker();
+          }); 
+        });
+      }
     }
   };
 
@@ -333,6 +388,9 @@ export class AppComponent {
         this.IsShowPassControlPanel = !this.IsInDriverMode;
         this.IsShowDriverControlPanel = this.IsInDriverMode;
         this.IsShowDriverHistory = false;
+        this.delay(1000).then(()=>{
+          this.ShowAllDriverMarker();
+        });
         break;
       case "ind":
         this.IsShowSignInComponent = false;

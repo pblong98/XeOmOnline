@@ -19,6 +19,7 @@ import { PassControlPanelComponent } from './pass-control-panel/pass-control-pan
 import { DriverControlPanelComponent } from './driver-control-panel/driver-control-panel.component';
 import { DriverHistoryComponent } from './driver-history/driver-history.component';
 import { HistoryItemComponent } from './history-item/history-item.component';
+import { PositionMoveSimulatorComponent } from './position-move-simulator/position-move-simulator.component';
 
 @NgModule({
   imports:      [ 
@@ -32,7 +33,7 @@ import { HistoryItemComponent } from './history-item/history-item.component';
     AgmDirectionModule,
     HttpClientModule
    ],
-  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent, StartAppComponent, PassControlPanelComponent, DriverControlPanelComponent, DriverHistoryComponent, HistoryItemComponent  ],
+  declarations: [ AppComponent, DriverRegisterComponent, AppComponent, BorderComponent, DriverLoginComponent, StartAppComponent, PassControlPanelComponent, DriverControlPanelComponent, DriverHistoryComponent, HistoryItemComponent, PositionMoveSimulatorComponent  ],
   providers:    [APIService, CookieService ],
   bootstrap:    [ AppComponent ]
 })

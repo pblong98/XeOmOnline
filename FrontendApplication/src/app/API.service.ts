@@ -34,8 +34,14 @@ export class APIService {
 
   PostDriverPos(token,lat, lng)
   {
-    //console.log("ac");
-    return this._http.get(this.GetOrigin()+"/DriverUploadPosition/token/"+token+"/lat/"+lat+"/lng/"+lng);
+    //console.log("ac1");
+    return this._http.get(this.GetOrigin()+"/DriverInitPosition/token/"+token+"/lat/"+lat+"/lng/"+lng);
+  }
+
+  UpdateDriverPos(token,lat, lng)
+  {
+    //console.log("ac2");
+    return this._http.get(this.GetOrigin()+"/DriverUpdatePosition/token/"+token+"/lat/"+lat+"/lng/"+lng);
   }
 
   DriverUnready(token)
@@ -92,5 +98,9 @@ export class APIService {
   DriverGetAllHistory(token)
   {
     return this._http.get(this.GetOrigin()+"/ShowHistory/"+token);
+  }
+  GetSingleDriverLocation(driver)
+  {
+    return this._http.get(this.GetOrigin()+"/GetSingleDriverLocation/"+driver);
   }
 }

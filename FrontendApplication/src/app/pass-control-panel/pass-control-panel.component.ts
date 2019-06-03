@@ -32,9 +32,14 @@ export class PassControlPanelComponent implements OnInit {
 
   CreatePassengerRequest()
   {
-    this.IsActive = !this.IsActive;
     var app = AppComponent.ThisApp;
-    
+    if(app.from_latitude == null || app.to_latitude == null)
+    {
+      alert("Lỗi! Bạn chưa nhâp điểm tới hoặc điểm bắt đầu");
+    }
+
+    this.IsActive = !this.IsActive;
+
     if(this.IsActive == true)
     {
       //console.log(this.IsActive);
@@ -148,6 +153,8 @@ export class PassControlPanelComponent implements OnInit {
       this.Driver_LisensePlate = data.data.LisensePlate;
       this.Driver_Name = data.data.Name;
       this.Driver_Phone = data.data.Phone;
+      AppComponent.ThisApp.currentDriver = driver;
+      AppComponent.ThisApp.IsJustShow1Driver = true;
       this.ShowDriverInfor();
     });
   }
@@ -175,6 +182,8 @@ export class PassControlPanelComponent implements OnInit {
 
   PassengerFinishConfirm()
   {
+    AppComponent.ThisApp.currentDriver = null;
+    AppComponent.ThisApp.IsJustShow1Driver = false;
     this.APIService.MissionFinishPassengerConfirm(this.RequesId).subscribe(data=>{
       this.DriverStatusContent = "Bạn đã xác nhận hoàn tất chuyến đi !";
       alert("Chuyến đi kết thúc");

@@ -60,13 +60,30 @@ app.get('/GetDriverInfor/:driver', (req, res) => {
     });
 });
 
-app.get('/DriverUploadPosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
+app.get('/DriverInitPosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
     var token = req.params.token;
     var lat = req.params.lat;
     var lng = req.params.lng;
     var response = false;
-    console.log(token + " " + lat + " " + lng);
-    share.DriverUploadPosition(token,lat,lng).then((result)=>{
+    //console.log(token + " " + lat + " " + lng);
+    share.DriverInitPosition(token,lat,lng).then((result)=>{
+        response = result;
+        res.send(response);
+        return;
+    }).catch((e)=>{
+        response = false;
+        res.send(response);
+        return;
+    });
+});
+
+app.get('/DriverUpdatePosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
+    var token = req.params.token;
+    var lat = req.params.lat;
+    var lng = req.params.lng;
+    var response = false;
+    //console.log("asdfsadfsadf  " + token + " " + lat + " " + lng);
+    share.DriverUpdatePosition(token,lat,lng).then((result)=>{
         response = result;
         res.send(response);
         return;
@@ -216,6 +233,18 @@ app.get('/MissionFinishPassengerConfirm/:requestId', (req, res) => {
 app.get('/ShowHistory/:token', (req, res) => {
     var token = req.params.token;
     share.ShowHistory(token).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/GetSingleDriverLocation/:driver', (req, res) => {
+    var driver = req.params.driver;
+    share.GetSingleDriverLocation(driver).then(data =>{
         //console.log(data);
         res.send({data:data});
         return;
