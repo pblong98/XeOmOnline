@@ -50,13 +50,40 @@ app.get('/signin/username/:uname/password/:pword', (req, res) => {
     });
 });
 
-app.get('/DriverUploadPosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
+app.get('/GetDriverInfor/:driver', (req, res) => {
+    share.GetDriverInfor(req.params.driver).then((result) => {
+        res.send({data: result});
+        return;
+    }).catch((e)=>{
+        res.send({data: null});
+        return;
+    });
+});
+
+app.get('/DriverInitPosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
     var token = req.params.token;
     var lat = req.params.lat;
     var lng = req.params.lng;
     var response = false;
-    
-    share.DriverUploadPosition(token,lat,lng).then((result)=>{
+    //console.log(token + " " + lat + " " + lng);
+    share.DriverInitPosition(token,lat,lng).then((result)=>{
+        response = result;
+        res.send(response);
+        return;
+    }).catch((e)=>{
+        response = false;
+        res.send(response);
+        return;
+    });
+});
+
+app.get('/DriverUpdatePosition/token/:token/lat/:lat/lng/:lng', (req, res) => {
+    var token = req.params.token;
+    var lat = req.params.lat;
+    var lng = req.params.lng;
+    var response = false;
+    //console.log("asdfsadfsadf  " + token + " " + lat + " " + lng);
+    share.DriverUpdatePosition(token,lat,lng).then((result)=>{
         response = result;
         res.send(response);
         return;
@@ -76,6 +103,153 @@ app.get('/GetAllDriverPos', (req, res) => {
     }).catch((e)=>{
         response = false;
         res.send(response);
+        return;
+    });
+});
+
+app.get('/DriverUnready/:token', (req, res) => {
+    var response = "";
+    var token = req.params.token;
+    share.DriverUnready(token).then((result)=>{
+        response = result;
+        res.send(response);
+        return;
+    }).catch((e)=>{
+        response = false;
+        res.send(response);
+        return;
+    });
+});
+
+app.get('/PassengerNewRequest/:s_lat/:s_lng/:d_lat/:d_lng', (req, res) => {
+    var s_lat = req.params.s_lat;
+    var s_lng = req.params.s_lng;
+    var d_lat = req.params.d_lat;
+    var d_lng = req.params.d_lng;
+    res.send({RequestKey: share.CreatePassengerRequest(s_lat,s_lng,d_lat,d_lng)});
+});
+
+app.get('/PassengerGetRequest/:RequestId', (req, res) => {
+    var RequestId = req.params.RequestId;
+    share.GetPassengerRequestResponse(RequestId).then(data =>{
+        //console.log(data);
+        res.send(data);
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/PassengerDestroyRequest/:RequestId', (req, res) => {
+    var RequestId = req.params.RequestId;
+    share.PassengerDestroyRequest(RequestId).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/DriverListeningToNotification/:token', (req, res) => {
+    var token = req.params.token;
+    share.DriverListeningToNotification(token).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/DriverGetPassengerRequestInfor/:token/:requestId', (req, res) => {
+    var token = req.params.token;
+    var requestId = req.params.requestId;
+    share.DriverGetPassengerRequestInfor(token,requestId).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/DriverAppceptRequestInfor/:token/:requestId', (req, res) => {
+    var token = req.params.token;
+    var requestId = req.params.requestId;
+    share.DriverAppceptRequestInfor(token,requestId).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/DriverDeniePassengerRequest/:token/:requestId', (req, res) => {
+    var token = req.params.token;
+    var requestId = req.params.requestId;
+    share.DriverDeniePassengerRequest(token,requestId).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+
+app.get('/MissionFinishDriverConfirm/:token/:requestId', (req, res) => {
+    var token = req.params.token;
+    var requestId = req.params.requestId;
+    share.MissionFinishDriverConfirm(token,requestId).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/MissionFinishPassengerConfirm/:requestId', (req, res) => {
+    var requestId = req.params.requestId;
+    share.MissionFinishPassengerConfirm(requestId).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/ShowHistory/:token', (req, res) => {
+    var token = req.params.token;
+    share.ShowHistory(token).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
+        return;
+    });
+});
+
+app.get('/GetSingleDriverLocation/:driver', (req, res) => {
+    var driver = req.params.driver;
+    share.GetSingleDriverLocation(driver).then(data =>{
+        //console.log(data);
+        res.send({data:data});
+        return;
+    }).catch(e => {
+        res.send(null);
         return;
     });
 });

@@ -38,7 +38,7 @@ export class DriverLoginComponent implements OnInit {
       }
       else
       {
-        console.log(data);
+        //console.log(data);
         this.mess ="Đăng nhập thành công !";
         this.messstyle = "text-success";
         this.CookieService.set("token",_data.token);

@@ -121,6 +121,7 @@ async function GetDriverInfor(driver)
         data.LisensePlate = _data.val().LisensePlate;
         data.Name = _data.val().Name;
         data.Phone = _data.val().Phone;
+        return;
     });
     return data;
 }
@@ -155,8 +156,9 @@ async function DriverUpdatePosition(token, lat, lng)
     var isInMission = false;
     await CheckIfDriverOnMission(DriverUserName).then(data=>{
         isInMission = data;
+        return;
     });
-    console.log(isInMission);
+    //console.log(isInMission);
     if(DriverUserName !== "" && isInMission)
     {
         await database.ref("DriverReady/"+DriverUserName).child('Notification').once("value").then(data =>{
@@ -164,6 +166,7 @@ async function DriverUpdatePosition(token, lat, lng)
             database.ref("DriverReady/"+DriverUserName).child('lat').set(Number(lat));
             database.ref("DriverReady/"+DriverUserName).child('lng').set(Number(lng));
             database.ref("DriverReady/"+DriverUserName).child('Notification').set(data.val());
+            return;
         })
         status = true;
     }
@@ -207,6 +210,7 @@ async function GetAllDriverPosition()
     await database.ref("DriverReady").once("value").then(_data => {
         data = _data.exportVal();
         //console.log(data.length);
+        return;
     });
     return data;
 }
@@ -224,6 +228,7 @@ async function GetPassengerRequestResponse(RequestId)
     var data;
     await database.ref("PassengerRequest").child(RequestId).once("value").then(_data => {
         data =_data.val();    
+        return;
     });
     //console.log(data);
     return data;
@@ -235,6 +240,7 @@ async function PassengerDestroyRequest(RequestId)
         //console.log(data.val());
         database.ref("DriverReady").child(data.val().Driver).remove();
         database.ref("PassengerRequest").child(RequestId).remove();
+        return
     });
     
     return "ok";
@@ -249,12 +255,13 @@ async function DriverDeniePassengerRequest(token, RequestId)
         return;
     });
     await database.ref('PassengerRequest').child(RequestId).once("value").then(data =>{
-        if(DriverUserName == data.val().Driver)
+        if(DriverUserName === data.val().Driver)
         {
             database.ref('PassengerRequest').child(RequestId).child("Driver").set("null");
         }
         status = true;
         database.ref("PassengerRequest").child(RequestId).remove();
+        return;
     }).catch(e=>{
         status = false;
     });
@@ -268,7 +275,7 @@ async function FindDriverForPassenger(RequestId, time)
     await database.ref("PassengerRequest").child(RequestId).once("value").then(_data => {
         
         var data = _data.val();
-        if(data != null)
+        if(data !== null)
         {
             StarPos = {lat: data.start.lat, lng: data.start.lng};
         }
@@ -276,32 +283,39 @@ async function FindDriverForPassenger(RequestId, time)
         {
             StarPos = null;
         }
+        return;
     });
 
     var TempDriver = null, MinDistance = 999999;
 
-    if(StarPos != null)
+    if(StarPos !== null)
     {      
         await database.ref("DriverReady").once("value").then(_data=>{
             var data = _data.val();
-            if(data != null)
+            if(data !== null)
             {
                 //console.log(data);
-                var list = Object.getOwnPropertyNames(data);  
+                var list = Object.getOwnPropertyNames(data);
+                //console.log("current driver" + list);  
                 for(var i = 0; i < list.length ; i++)
                 {
                     var CurrentLat = data[list[i]].lat;
-                    //console.log(CurrentLat);        
+                    //console.log("current driver" + list[i]);        
                     var CurrentLng = data[list[i]].lng;
                     var TempDistance = GetDistanceFromLatLonInKm(StarPos.lat, StarPos.lng, CurrentLat, CurrentLng);
-                    if(TempDistance < MinDistance && data[list[i]].Notification == "")
+                    //console.log(list[i] + "    temp: " + TempDistance + "   " + MinDistance);
+                    if(TempDistance < MinDistance && data[list[i]].Notification === "")
                     {
+                        //console.log(data[list[i]].Notification);
                         TempDriver = list[i];
+                        MinDistance = TempDistance;
                     }
+                    //console.log();
                 }
             }
+            return;
         });
-        if(TempDriver != null)
+        if(TempDriver !== null)
         {
             database.ref("PassengerRequest").child(RequestId).child('Driver').set(TempDriver);
             database.ref("DriverReady").child(TempDriver).child('Notification').set(RequestId);  
@@ -311,6 +325,7 @@ async function FindDriverForPassenger(RequestId, time)
             //console.log("lap trong");
             await delay(1000).then(()=>{
                 FindDriverForPassenger(RequestId, time++);
+                return;
             });
         }
         
@@ -320,6 +335,7 @@ async function FindDriverForPassenger(RequestId, time)
         //console.log("lap ngoai");
         await delay(1000).then(()=>{
             FindDriverForPassenger(RequestId, time++);
+            return;
         });
     }
 }
@@ -352,6 +368,7 @@ async function DriverListeningToNotification(token)
     var Notification;
     await database.ref('DriverReady').child(DriverUserName).child('Notification').once("value").then(data => {
         Notification = data.val();
+        return;
     });
     return Notification;
 }
@@ -365,10 +382,11 @@ async function DriverGetPassengerRequestInfor(token, requestId)
     });
 
     var data = "";
-    if(DriverUserName != null)
+    if(DriverUserName !== null)
     {
         await database.ref('PassengerRequest/'+requestId).once('value').then(_data => {
             data = _data.val();
+            return;
         });
     }
     return data;
@@ -383,7 +401,7 @@ async function DriverAppceptRequestInfor(token, requestId)
     });
 
     var data = "";
-    if(DriverUserName != null)
+    if(DriverUserName !== null)
     {
         database.ref('PassengerRequest/'+requestId).child("DriverStatus").set(1);
         data = "ok";
@@ -398,7 +416,7 @@ async function MissionFinishDriverConfirm(token, RequestId)
         DriverUserName = user;
         return;
     });
-    if(DriverUserName != null)
+    if(DriverUserName !== null)
         database.ref('PassengerRequest/'+RequestId).child("DriverFinishConfirm").set(1);
     return "ok";
 }
@@ -416,9 +434,9 @@ function SaveMissionHistory(RequestId)
     database.ref('PassengerRequest/'+RequestId).once("value").then(_data =>{
         var data = _data.val();
         //console.log(data);
-        if(data != null)
+        if(data !== null)
         {
-            if(data.DriverFinishConfirm == 1 && data.PassengerFinishConfirm == 1)
+            if(data.DriverFinishConfirm === 1 && data.PassengerFinishConfirm === 1)
             {
                 database.ref('DriverAccount/'+data.Driver).child("History").child(RequestId).set(data);
                 database.ref('DriverReady/'+data.Driver).remove();
@@ -429,10 +447,12 @@ function SaveMissionHistory(RequestId)
             {
                 delay(1000).then(()=>{
                     SaveMissionHistory(RequestId);
-                });
+                    return;
+                }).catch();
             }
         }
-    });
+        return;
+    }).catch(e=>{});
 }
 
 async function ShowHistory(token)
@@ -444,10 +464,11 @@ async function ShowHistory(token)
         return;
     });
 
-    if(DriverUserName != null)
+    if(DriverUserName !== null)
     {
         await database.ref('DriverAccount').child(DriverUserName).child('History').once('value').then(data =>{
             returnData = data.val();
+            return;
         });
     }
     return returnData;
@@ -458,6 +479,7 @@ async function GetSingleDriverLocation(driver)
     var data = null;
     await database.ref("DriverReady").child(driver).once("value").then(_data=>{
         data = _data;
+        return;
     });
     return data;
 }

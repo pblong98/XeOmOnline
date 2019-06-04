@@ -30,7 +30,82 @@
         "function": "app"
       },
       {
+        "source": "/GetDriverInfor/:driver",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverInitPosition/token/:token/lat/:lat/lng/:lng",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverUpdatePosition/token/:token/lat/:lat/lng/:lng",
+        "function": "app"
+      }
+      ,
+      {
         "source": "/GetAllDriverPos",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverUnready/:token",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/PassengerNewRequest/:s_lat/:s_lng/:d_lat/:d_lng",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/PassengerGetRequest/:RequestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/PassengerDestroyRequest/:RequestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverListeningToNotification/:token",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverGetPassengerRequestInfor/:token/:requestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverAppceptRequestInfor/:token/:requestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/DriverDeniePassengerRequest/:token/:requestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/MissionFinishDriverConfirm/:token/:requestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/MissionFinishPassengerConfirm/:requestId",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/ShowHistory/:token",
+        "function": "app"
+      }
+      ,
+      {
+        "source": "/GetSingleDriverLocation/:driver",
         "function": "app"
       }
     ]

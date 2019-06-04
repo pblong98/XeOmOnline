@@ -36,6 +36,7 @@ export class PassControlPanelComponent implements OnInit {
     if(app.from_latitude == null || app.to_latitude == null)
     {
       alert("Lỗi! Bạn chưa nhâp điểm tới hoặc điểm bắt đầu");
+      return;
     }
 
     this.IsActive = !this.IsActive;
@@ -104,6 +105,10 @@ export class PassControlPanelComponent implements OnInit {
           if(data.Driver == "null")
           {
             this.DriverStatusContent = "Tài xế đã hủy chuyến";
+            AppComponent.ThisApp.currentDriver = null;
+            AppComponent.ThisApp.IsJustShow1Driver = false;
+            AppComponent.ThisApp.HideStartAndDestPoint();
+            this.IsFinish = true;
             this.APIService.PassengerDestroyRequest(RequestId);
             this.delay(1000)
             .then(() => {
@@ -133,6 +138,10 @@ export class PassControlPanelComponent implements OnInit {
         else
         {
           this.DriverStatusContent = "Tài xế đã hủy chuyến";
+          AppComponent.ThisApp.currentDriver = null;
+          AppComponent.ThisApp.IsJustShow1Driver = false;
+          AppComponent.ThisApp.HideStartAndDestPoint();
+          this.IsFinish = true;
           this.APIService.PassengerDestroyRequest(RequestId);
           this.delay(1000)
             .then(() => {

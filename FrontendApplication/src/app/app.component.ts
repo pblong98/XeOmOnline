@@ -225,6 +225,10 @@ export class AppComponent {
 
   
   public OnMapClicked(event) {
+    if(this.IsInDriverMode)
+    {
+      return;
+    }
     this.QuickSelectedFrom = -1;
     this.QuickSelectedTo = -1;
     //this.ShowAllDriverMarker();
@@ -313,14 +317,15 @@ export class AppComponent {
       }
       else
       {
-        console.log("show 1 driver");
-        this.APIService.GetSingleDriverLocation(this.currentDriver).subscribe(_data=>
+        //console.log("show 1 driver");
+        this.APIService.GetSingleDriverLocation(this.currentDriver).subscribe(_=>
         {
-          if(_data != null)
+          var _data:any = _;
+          //console.log(_data);
+          if(_data.data != null)
           {
-            var _:any = _data;
-            var data = _.data;
-            console.log("signle: " + data);
+            var data = _data.data;
+            //console.log("signle: " + data);
             if(this.AllDriverPosMarker != null)
             {
               for(var i = 0; i < this.AllDriverPosMarker.length ; i++)
