@@ -1,3 +1,4 @@
+
 # XeOmOnline
 Đồ án môn lập trình web2
 
@@ -25,7 +26,33 @@
     + Backend :  https://xeomonlinebackend.firebaseapp.com/ 
 
 # Cách chạy thử:
-    + Backend : CD cmd tới thư mục ./BackendApplication gõ lệnh "node Localndex.js"
-    + Frontend: CD cmd tới thư mục ./BackendApplication gõ lệnh "ng serve --open"
+    + Backend : CD cmd tới thư mục ./BackendApplication/Functions gõ lệnh "node Localndex.js"
+    + Frontend: CD cmd tới thư mục ./FrontendApplication gõ lệnh "ng serve --open"
     + Chú ý: Phải chạy backend application lên trước
+
+
+# DANH SÁCH THÀNH VIÊN
+
+## PHẠM BÁ LONG
+
+ - MSSV: 1660325
+ - Email: Pblong98@gmail.com
+ - SĐT: 0961879028
+
+## VÕ THÀNH LONG
+ - MSSV: 1660327
+ - Email: longvophuongnguyen@gmail.com
+ - SĐT: 0707389573
+ 
+## TRƯƠNG PHƯƠNG HOÀI NAM
+ - MSSV: 1659357
+ - Email: tphoainam@gmail.com
+ - SĐT: 0707389573
+
+# THÔNG TIN KHÁC
+## GITHUB
+
+ - [https://github.com/pblong98/XeOmOnline](https://github.com/pblong98/XeOmOnline)
+## DEMO 
+- https://youtu.be/TvvuViGcAnA
     
