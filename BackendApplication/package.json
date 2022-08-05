@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "firebase-admin": "^7.3.0",
-    "mongoose": "^5.5.11",
+    "mongoose": "^5.7.5",
     "package.json": "^2.0.1"
   }
 }
