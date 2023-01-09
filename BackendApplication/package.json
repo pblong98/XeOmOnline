@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase-admin": "^7.3.0",
+    "firebase-admin": "^11.4.1",
     "mongoose": "^5.5.11",
     "package.json": "^2.0.1"
   }
